@@ -131,6 +131,7 @@ var chat_area        = PUBNUB.$('chat-area');
 var chat_username    = PUBNUB.$('chat-username');
 var chat_message_box = PUBNUB.$('chat-message-box');
 var chat_send_button = PUBNUB.$('chat-send-button');
+var chat_color_pick  = PUBNUB.$('chat-color-select');
 var chat_net         = PUBNUB.init({});
 var chat_color       = 2;
 var chat_channel     = 'bitcoin-chat';
@@ -153,13 +154,16 @@ function trigger_chat_message() {
 
 // SEND A CHAT MESSAGE
 function send_chat_message( user, message ) {
+    var msg = safe(message);
+    if (!msg) return;
+
     chat_net.publish({
         channel : chat_channel,
         message : {
             color   : chat_color,
             date    : +new Date,
             user    : safe(user),
-            message : safe(message)
+            message : msg
         }
     });
 }
@@ -172,9 +176,11 @@ function receive_chat_message( user, message, date, color ) {
     div.innerHTML = PUBNUB.supplant( chat_template, {
         username : user,
         message  : message,
-        color    : color || colors[Math.floor(Math.random()*colors.length)]
+        color    : color         ? 
+                   colors[color] :
+                   colors[Math.floor(Math.random()*colors.length)]
     } );
-    
+
     // APPEND NEW TRADE
     chat_area.insertBefore( div, first_div(chat_area) );
 }
@@ -187,10 +193,25 @@ chat_net.subscribe({
         receive_chat_message(
             safe(data.user),
             safe(data.message),
-            safe(data.date)
+            safe(data.date),
+            safe(data.color)
         );
     }
 });
+
+// GET PREFERRED COLOR
+PUBNUB.bind( 'mousedown,touchstart', chat_color_pick, function(e) {
+    var target = e.target
+    ,   value  = PUBNUB.attr( target, 'value' );
+
+    if (!value) return;
+
+    chat_color = value;
+    animate( target, [
+        { d : 0.1, ty : -50, opacity : 0.0 },
+        { d : 0.5, ty :   0, opacity : 1.0 }
+    ] );
+} );
 
 
 // -----------------------------------------------------------------------
