@@ -28,8 +28,9 @@
     font-size: 25px;
     padding: 14px 24px;
 }
+
 @-webkit-keyframes slide {
-    0%   { background-position: 0px 0px;      }
+    0%   { background-position: 0px 0px;       }
     100% { background-position: 1024px -512px; }
 }
 
@@ -124,6 +125,91 @@
 }
 
 
+
+/* MAIN DASHBOARD -- TRADES
+-------------------------------------------------------------------- */
+.trade-main-bg {
+    padding: 0px 0;
+}
+.trade-time-ago {
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 100px;
+}
+.trade-value-block {
+    margin: 10px 0;
+    background: #fff;
+    padding: 10px 0;
+    font-weight: 100;
+    font-size: 20px;
+    line-height: 30px;
+    text-transform: uppercase;
+    -webkit-border-radius: 100px;
+    -webkit-border-top-right-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    -moz-border-radius: 100px;
+    -moz-border-radius-topright: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-radius: 100px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.trade-heading {
+    letter-spacing: 4px;
+    font-size: 50px;
+    line-height: 100px;
+    font-weight: 100;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.trade-coin {
+    position: absolute;
+    top: -8px;
+    left: 2px;
+    background-image: url(../media/bitcoin.png);
+    background-size: 75px 75px;
+    width: 75px;
+    height: 75px;
+}
+.trade-price {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    text-align: right;
+}
+.trade-arrows {
+    position: absolute;
+    top: 0px;
+    left: 270px;
+    font-size: 19px;
+    line-height: 66px;
+    color: rgba(0,0,0,0.1);
+}
+
+.trade-btc {
+    color: #877;
+    font-weight: 200;
+    padding-left: 100px;
+}
+
+.trade-usd {
+    color: #9d5;
+    font-weight: 200;
+    padding-left: 100px;
+}
+.trade-price-usd {
+    color: #d95;
+    font-weight: 200;
+}
+
+/* MAIN DASHBOARD -- CHAT
+-------------------------------------------------------------------- */
+.trade-chat-bg {
+}
+
+
 /* MARKETING SECTIONS
 -------------------------------------------------------------------- */
 .featurebg {
@@ -169,9 +255,11 @@
 small {
     color: #888885;
 }
-
 h2 {
     font-weight: 200;
+}
+.relative { 
+    position: relative;
 }
 
 #push-edit-panel {
