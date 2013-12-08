@@ -70,6 +70,7 @@ var trade_template = PUBNUB.$('trade-template').innerHTML;
 var trade_area     = PUBNUB.$('trade-area');
 var timeagos       = []
 ,   divs           = [];
+
 PUBNUB.events.bind( 'trade.BTC', function(data) {
     var div = PUBNUB.create('div');
     divs.push(div);
@@ -125,8 +126,71 @@ function update_time_ago() {
 // -----------------------------------------------------------------------
 // CHAT ABOUT TRADES AND BITCOIN
 // -----------------------------------------------------------------------
-var chat_template = PUBNUB.$('chat-template').innerHTML;
-var chat_area     = PUBNUB.$('chat-area');
+var chat_template    = PUBNUB.$('chat-template').innerHTML;
+var chat_area        = PUBNUB.$('chat-area');
+var chat_username    = PUBNUB.$('chat-username');
+var chat_message_box = PUBNUB.$('chat-message-box');
+var chat_send_button = PUBNUB.$('chat-send-button');
+var chat_net         = PUBNUB.init({});
+var chat_color       = 2;
+var chat_channel     = 'bitcoin-chat';
+
+// PRESS SEND BUTTON
+PUBNUB.bind( 'mousedown,touchstart', chat_send_button, function() {
+    trigger_chat_message();
+} );
+
+// PRESS ENTER ON KEYBOARD
+PUBNUB.bind( 'keyup', chat_message_box, function(e) {
+    (e.keyCode || e.charCode) === 13 && trigger_chat_message();
+} );
+
+// TRIGGER CHAT MESSAGE SEND EVENT
+function trigger_chat_message() {
+    send_chat_message( chat_username.value, chat_message_box.value );
+    chat_message_box.value = '';
+}
+
+// SEND A CHAT MESSAGE
+function send_chat_message( user, message ) {
+    chat_net.publish({
+        channel : chat_channel,
+        message : {
+            color   : chat_color,
+            date    : +new Date,
+            user    : safe(user),
+            message : safe(message)
+        }
+    });
+}
+
+// CHAT MESSAGE RECEIVED
+function receive_chat_message( user, message, date, color ) {
+    var div    = PUBNUB.create('div');
+    var colors = ['danger', 'warning', 'info'];
+
+    div.innerHTML = PUBNUB.supplant( chat_template, {
+        username : user,
+        message  : message,
+        color    : color || colors[Math.floor(Math.random()*colors.length)]
+    } );
+    
+    // APPEND NEW TRADE
+    chat_area.insertBefore( div, first_div(chat_area) );
+}
+
+// OPEN DATA STREAM FOR RECEIVING CHAT MESSAGES
+chat_net.subscribe({
+    backfill : true,
+    channel  : chat_channel,
+    message  : function(data) {
+        receive_chat_message(
+            safe(data.user),
+            safe(data.message),
+            safe(data.date)
+        );
+    }
+});
 
 
 // -----------------------------------------------------------------------
@@ -142,7 +206,7 @@ PUBNUB.$('current-date').innerHTML = (new Date().getDate())+'-'+month();
 // UTILITY FUNCTIONS
 // -----------------------------------------------------------------------
 function first_div(elm) { return elm.getElementsByTagName('div')[0]  }
-function safe(text)     { return (text||'').replace( /[<>]/g, '' )   }
+function safe(text)     { return (''+text||'').replace(/[<>]/g, '')  }
 function numf(num)      { return (+((num*100)+'').split('.')[0])/100 }
 
 })();

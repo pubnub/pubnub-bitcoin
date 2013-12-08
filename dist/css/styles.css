@@ -230,6 +230,32 @@
 -------------------------------------------------------------------- */
 .trade-chat-bg {
 }
+.user-icon {
+    line-height: 0px;
+    font-size: 10px;
+}
+.chat-color-select {
+    font-size: 24px;
+    text-align: left;
+}
+.cd:hover, .cw:hover, .ci:hover {
+    opacity: 1.0;
+}
+.cd {
+    color: #b94a48;
+    cursor: pointer;
+    opacity: 0.6;
+}
+.cw {
+    color: #8a6d3b;
+    cursor: pointer;
+    opacity: 0.6;
+}
+.ci {
+    color: #34789a;
+    cursor: pointer;
+    opacity: 0.6;
+}
 
 
 /* MARKETING SECTIONS
