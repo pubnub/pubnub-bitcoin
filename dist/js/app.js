@@ -38,6 +38,7 @@ PUBNUB.events.bind( 'trade.BTC', function(data) {
 
     // CALCULATIONS
     data.trade.total = (+data.trade.price) * (+data.trade.amount);
+    if (!data.trade.total) console.log(data.trade);
     data.trade.total = numf(data.trade.total);
     data.trade.price = numf(data.trade.price);
 
