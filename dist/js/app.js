@@ -1,11 +1,15 @@
 (function(){
 
+// -----------------------------------------------------------------------
 // DISPLAY UI ELEMENTS
+// -----------------------------------------------------------------------
 var btc_current = updater('btc-current', false )
 ,   btc_high    = updater('btc-high',    true  )
 ,   btc_low     = updater('btc-low',     true  );
 
+// -----------------------------------------------------------------------
 // MTGOX TICKER DISPLAY UPDATES
+// -----------------------------------------------------------------------
 PUBNUB.events.bind( 'ticker.BTCUSD', function(data) {
     // SET LAST ARROW CHANGE UP/DOWN
     var up    = 'glyphicon glyphicon-chevron-up icon-green'
@@ -23,12 +27,28 @@ PUBNUB.events.bind( 'ticker.BTCUSD', function(data) {
     btc_low(    data.ticker.low);
 } );
 
+// -----------------------------------------------------------------------
 // MTGOX TRADES (BUY/SELL)
-PUBNUB.events.bind( 'ticker.BTCUSD', function(data) {
-    //console.log(data);
+// -----------------------------------------------------------------------
+var trade_template = PUBNUB.$('trade-template').innerHTML;
+var trade_area     = PUBNUB.$('trade-area');
+PUBNUB.events.bind( 'trade.BTC', function(data) {
+    var timeagos = []
+    ,   div      = PUBNUB.create('div');
+
+    // CALCULATIONS
+    data.trade.total = (+data.trade.price) * (+data.trade.amount);
+    data.trade.total = numf(data.trade.total);
+    data.trade.price = numf(data.trade.price);
+
+    div.innerHTML = PUBNUB.supplant( trade_template, data.trade );
+
+    trade_area.insertBefore( div, first_div(trade_area) );
 } );
 
+// -----------------------------------------------------------------------
 // UPDATE UI USER INTERFACE VALUES
+// -----------------------------------------------------------------------
 function updater( name, noanimate ) {
     var node = PUBNUB.$(name);
 
@@ -61,5 +81,12 @@ function updater( name, noanimate ) {
     fn.node = node;
     return fn;
 }
+
+// -----------------------------------------------------------------------
+// UTILITY FUNCTIONS
+// -----------------------------------------------------------------------
+function first_div(elm) { return elm.getElementsByTagName('div')[0]  }
+function safe(text)     { return (text||'').replace( /[<>]/g, '' )   }
+function numf(num)      { return (+((num*100)+'').split('.')[0])/100 }
 
 })();

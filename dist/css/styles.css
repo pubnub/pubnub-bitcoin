@@ -164,6 +164,23 @@
     text-align: center;
 }
 
+.trade-line-bg {
+    background-image:
+        linear-gradient(
+            90deg,
+            transparent 99%,
+            rgba(0,0,0,0.2) 10%
+        );
+    background-image:
+        -webkit-linear-gradient(
+            0deg,
+            transparent 99%,
+            rgba(0,0,0,0.2) 10%
+        );
+    background-size: 316px 100px;
+    background-repeat: no-repeat;
+}
+
 .trade-coin {
     position: absolute;
     top: -8px;
@@ -182,12 +199,11 @@
 .trade-arrows {
     position: absolute;
     top: 0px;
-    left: 270px;
+    left: 290px;
     font-size: 19px;
     line-height: 66px;
     color: rgba(0,0,0,0.1);
 }
-
 .trade-btc {
     color: #877;
     font-weight: 200;
@@ -198,10 +214,12 @@
     color: #9d5;
     font-weight: 200;
     padding-left: 100px;
+    font-weight: 800;
 }
 .trade-price-usd {
     color: #d95;
     font-weight: 200;
+    font-size: 16px;
 }
 
 /* MAIN DASHBOARD -- CHAT

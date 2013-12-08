@@ -149,47 +149,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-8"><div></div>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="trade-time-ago">5 Minutes Ago</div>
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="trade-value-block">
-                            <div class="relative">
-                                <div class="trade-arrows">
-                                    <span class="glyphicon glyphicon-sort"
-                                    ></span>
-                                </div>
-                                <div class="trade-coin"></div>
-                                <div class="trade-price">
-                                    <div>Trade Price</div>
-                                    <div class="trade-price-usd">
-                                        760 USD
-                                    </div>
-                                </div>
-                                <div class="trade-btc">
-                                    5.26884625 BTC
-                                </div>
-                                <div class="trade-usd">
-                                    4004.32315 USD
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                    <!--
-                    TRADES
-                    amount: 0.1997994
-                    date: 1386461097
-                    item: "BTC"
-                    price: 689.68899
-                    price_currency: "USD"
-                    properties: "market"
-                    trade_type: "bid"
-                    type: "trade"
-                    -->
+            <div class="col-lg-8">
+                <div id="trade-area"><div></div></div>
             </div>
             <div class="col-lg-4"><div class="trade-chat-bg">
                 CHAT
@@ -198,9 +159,9 @@
     </div></div>
 
     <script id="trade-template" type="text/template">
-        <div class="row">
+        <div class="row trade-line-bg">
             <div class="col-lg-4">
-                <div class="trade-time-ago">5 Minutes Ago</div>
+                <div class="trade-time-ago">{time} Minutes Ago</div>
             </div>
             <div class="col-lg-8">
                 <div class="trade-value-block">
@@ -213,14 +174,14 @@
                         <div class="trade-price">
                             <div>Trade Price</div>
                             <div class="trade-price-usd">
-                                760 USD
+                                {price} {price_currency}
                             </div>
                         </div>
                         <div class="trade-btc">
-                            5.26884625 BTC
+                            {amount} {item}
                         </div>
                         <div class="trade-usd">
-                            4004.32315 USD
+                            {total} {price_currency}
                         </div>
                     </div>
                 </div>
