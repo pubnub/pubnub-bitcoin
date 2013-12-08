@@ -8,11 +8,14 @@ var btc_current = updater('btc-current', false )
 // MTGOX TICKER DISPLAY UPDATES
 PUBNUB.events.bind( 'ticker.BTCUSD', function(data) {
     // SET LAST ARROW CHANGE UP/DOWN
-    var up   = 'glyphicon glyphicon-chevron-up icon-green'
-    ,   down = 'glyphicon glyphicon-chevron-down icon-red';
+    var up    = 'glyphicon glyphicon-chevron-up icon-green'
+    ,   down  = 'glyphicon glyphicon-chevron-down icon-red'
+    ,   value = +data.ticker.last.value;
 
-    PUBNUB.$('btc-current-arrow').className = 
-        +data.ticker.last.value > btc_current.last ? up : down;
+    // SET LAST CHANGE ARROW UNDER "CURRENT"
+    if (btc_current.last != value)
+        PUBNUB.$('btc-current-arrow').className = 
+             value > btc_current.last ? up : down;
 
     // SET CURRENT LOW AND HIGH VALUES
     btc_current(data.ticker.last);
@@ -34,12 +37,12 @@ function updater( name, noanimate ) {
         ,   value   = +msg.value
         ,   up      = {
             d          : 1,
-            ty         : -10,
+            ty         : -6,
             background : 'rgba( 92, 184, 92, 0.8 )',
             color      : '#fff' }
         ,   down    = {
             d          : 1,
-            ty         : 10,
+            ty         : 4,
             background : 'rgba( 217, 83, 79, 0.8 )',
             color      : '#fff' };
 
