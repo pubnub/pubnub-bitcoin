@@ -99,7 +99,7 @@ PUBNUB.events.bind( 'trade.BTC', function(data) {
     timeagos.push(timeago);
 
     // REMOVE OLDER TRADES TO PREVENT OVERFLOW
-    if (divs.length < 10) return;
+    if (divs.length < 15) return;
     trade_area.removeChild(divs.shift());
     timeagos.shift();
 
@@ -134,6 +134,7 @@ var chat_send_button = PUBNUB.$('chat-send-button');
 var chat_color_pick  = PUBNUB.$('chat-color-select');
 var chat_net         = PUBNUB.init({});
 var chat_color       = 2;
+var chat_refs        = [];
 var chat_channel     = 'bitcoin-chat';
 
 // PRESS SEND BUTTON
@@ -173,6 +174,7 @@ function receive_chat_message( user, message, date, color ) {
     var div    = PUBNUB.create('div');
     var colors = ['danger', 'warning', 'info'];
 
+    chat_refs.push(div);
     div.innerHTML = PUBNUB.supplant( chat_template, {
         username : user,
         message  : message,
@@ -183,6 +185,10 @@ function receive_chat_message( user, message, date, color ) {
 
     // APPEND NEW TRADE
     chat_area.insertBefore( div, first_div(chat_area) );
+
+    // REMOVE OLD
+    if (chat_refs.length < 10) return;
+    chat_area.removeChild(chat_refs.shift());
 }
 
 // OPEN DATA STREAM FOR RECEIVING CHAT MESSAGES
@@ -190,6 +196,8 @@ chat_net.subscribe({
     backfill : true,
     channel  : chat_channel,
     message  : function(data) {
+        if (!safe(data.message)) return;
+
         receive_chat_message(
             safe(data.user),
             safe(data.message),
