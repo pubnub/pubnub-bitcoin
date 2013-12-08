@@ -34,7 +34,7 @@
 }
 
 .jumbotron-footer {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     color: #fff;
     background-image: url(../media/bitcoin-half-opacity.png);
     background-color: rgba(255,130,0,0.6);
@@ -63,12 +63,14 @@
 /* MAIN DASHBOARD REAL VALUES
 -------------------------------------------------------------------- */
 .btc-big {
-    letter-spacing: -4px;
+    letter-spacing: -3px;
     line-height: 100px;
     font-size: 90px;
     font-weight: 100;
     color: #f90;
     text-align: right;
+    padding-right: 10px;
+    border-radius: 20px;
 }
 .btc-big-label-focus,
 .btc-big-label {
@@ -78,6 +80,7 @@
     font-size: 30px;
     text-align: right;
     text-transform: uppercase;
+    padding-right: 10px;
 }
 .btc-big-label {
     color: #777;
@@ -90,21 +93,21 @@
 /* D3 GRAPH
 -------------------------------------------------------------------- */
 #chart-graph-area {
-    margin-top: 50px;
+    margin-top: 60px;
     background: rgb(61,162,192);
 }
 #chart-graph {
+    margin: 0;
+    margin-top: 70px;
     width: 100%;
     height: 100px;
-    margin: 0;
-    margin-top: 20px;
 }
 .area {
     fill: rgb(91,192,222);
 }
 
 #chart-graph-footer {
-    margin-top: -5px;
+    margin-bottom: 40px;
     background: rgb(61,162,192);
     color: #fff;
     font-size: 20px;
