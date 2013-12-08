@@ -177,18 +177,18 @@
             transparent 99%,
             rgba(0,0,0,0.2) 10%
         );
-    background-size: 316px 100px;
+    background-size: 314px 100px;
     background-repeat: no-repeat;
 }
 
 .trade-coin {
     position: absolute;
-    top: -8px;
-    left: 2px;
+    top: -5px;
+    left: 4px;
     background-image: url(../media/bitcoin.png);
-    background-size: 75px 75px;
-    width: 75px;
-    height: 75px;
+    background-size: 70px 70px;
+    width: 70px;
+    height: 70px;
 }
 .trade-price {
     position: absolute;
@@ -200,9 +200,9 @@
     position: absolute;
     top: 0px;
     left: 290px;
-    font-size: 19px;
+    font-size: 29px;
     line-height: 66px;
-    color: rgba(0,0,0,0.1);
+    color: rgba(221,153,85,0.4);
 }
 .trade-btc {
     color: #877;

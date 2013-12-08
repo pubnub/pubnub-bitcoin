@@ -28,26 +28,6 @@ PUBNUB.events.bind( 'ticker.BTCUSD', function(data) {
 } );
 
 // -----------------------------------------------------------------------
-// MTGOX TRADES (BUY/SELL)
-// -----------------------------------------------------------------------
-var trade_template = PUBNUB.$('trade-template').innerHTML;
-var trade_area     = PUBNUB.$('trade-area');
-PUBNUB.events.bind( 'trade.BTC', function(data) {
-    var timeagos = []
-    ,   div      = PUBNUB.create('div');
-
-    // CALCULATIONS
-    data.trade.total = (+data.trade.price) * (+data.trade.amount);
-    if (!data.trade.total) console.log(data.trade);
-    data.trade.total = numf(data.trade.total);
-    data.trade.price = numf(data.trade.price);
-
-    div.innerHTML = PUBNUB.supplant( trade_template, data.trade );
-
-    trade_area.insertBefore( div, first_div(trade_area) );
-} );
-
-// -----------------------------------------------------------------------
 // UPDATE UI USER INTERFACE VALUES
 // -----------------------------------------------------------------------
 function updater( name, noanimate ) {
@@ -82,6 +62,68 @@ function updater( name, noanimate ) {
     fn.node = node;
     return fn;
 }
+
+// -----------------------------------------------------------------------
+// MTGOX TRADES (BUY/SELL)
+// -----------------------------------------------------------------------
+var trade_template = PUBNUB.$('trade-template').innerHTML;
+var trade_area     = PUBNUB.$('trade-area');
+var timeagos       = []
+,   divs           = [];
+PUBNUB.events.bind( 'trade.BTC', function(data) {
+    var div = PUBNUB.create('div');
+    divs.push(div);
+
+    // CALCULATIONS
+    data.trade.total = (+data.trade.price) * (+data.trade.amount);
+    if (!data.trade.total) console.log(data.trade);
+    data.trade.total = numf(data.trade.total);
+    data.trade.price = numf(data.trade.price);
+    data.trade.tid   = PUBNUB.uuid();
+    data.trade.time  = get_time_ago(data.trade.date);
+
+    // RENDER TEMPLATE
+    div.innerHTML = PUBNUB.supplant( trade_template, data.trade );
+    animate( div, [
+        { d : 0.1, ty : -50, opacity : 0.0 },
+        { d : 1.0, ty :   0, opacity : 1.0 }
+    ] );
+
+    // APPEND NEW TRADE
+    trade_area.insertBefore( div, first_div(trade_area) );
+
+    // SNAPSHOT TIME AGO DIV
+    var timeago = PUBNUB.$('trade-time-ago-'+data.trade.tid);
+    PUBNUB.attr( timeago, 'trade-date', data.trade.date );
+    timeagos.push(timeago);
+
+    // REMOVE OLDER TRADES TO PREVENT OVERFLOW
+    if (divs.length < 10) return;
+    trade_area.removeChild(divs.shift());
+    timeagos.shift();
+
+    // UPDATE TIME AGO LISTING RIGHT AWAY
+    update_time_ago();
+} );
+
+function get_time_ago(then) {
+    var now     = (+new Date/1000)
+    ,   timeago = ''+Math.abs(Math.ceil((now - (+then))));
+    if (timeago == '1') timeago = '0';
+    return timeago;
+}
+
+setInterval( update_time_ago, 5000 );
+function update_time_ago() {
+    PUBNUB.each( timeagos, function(timeago) {
+        var then = PUBNUB.attr( timeago, 'trade-date' );
+        timeago.innerHTML = get_time_ago(then);
+    } );
+}
+
+// -----------------------------------------------------------------------
+// CHAT ABOUT TRADES AND BITCOIN
+// -----------------------------------------------------------------------
 
 // -----------------------------------------------------------------------
 // UTILITY FUNCTIONS
