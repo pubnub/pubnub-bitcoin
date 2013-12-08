@@ -108,7 +108,8 @@ PUBNUB.events.bind( 'trade.BTC', function(data) {
 
 function get_time_ago(then) {
     var now     = (+new Date/1000)
-    ,   timeago = ''+Math.abs(Math.ceil((now - (+then))));
+    ,   timeago = +Math.ceil((now - (+then)));
+    timeago = (timeago < 0) ? '0' : ''+timeago;
     if (timeago == '1') timeago = '0';
     return timeago;
 }
@@ -124,6 +125,18 @@ function update_time_ago() {
 // -----------------------------------------------------------------------
 // CHAT ABOUT TRADES AND BITCOIN
 // -----------------------------------------------------------------------
+var chat_template = PUBNUB.$('chat-template').innerHTML;
+var chat_area     = PUBNUB.$('chat-area');
+
+
+// -----------------------------------------------------------------------
+// SET MONTH
+// -----------------------------------------------------------------------
+var month_names = [ "January", "February", "March", "April", "May",
+                    "June", "July", "August", "September", "October",
+                    "November", "December" ];
+function month() { return month_names[(new Date()).getMonth()] }
+PUBNUB.$('current-date').innerHTML = (new Date().getDate())+'-'+month();
 
 // -----------------------------------------------------------------------
 // UTILITY FUNCTIONS

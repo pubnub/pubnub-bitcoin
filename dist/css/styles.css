@@ -42,6 +42,9 @@
     background-size: 128px 128px;
     -webkit-animation: slide 36s linear infinite;
 }
+#current-date {
+    text-transform: uppercase;
+}
 .graph-icon {
     background: rgba(255,130,0,0.3);
     text-align: center;
@@ -177,7 +180,7 @@
             transparent 99%,
             rgba(0,0,0,0.2) 10%
         );
-    background-size: 314px 100px;
+    background-size: 225px 100px;
     background-repeat: no-repeat;
 }
 
@@ -311,6 +314,44 @@ h2 {
     font-weight: 300;
     line-height: 1;
     letter-spacing: -1px;
+}
+
+
+/* CALLOUTS
+-------------------------------------------------------------------- */
+.bs-callout {
+    margin: 20px 0;
+    padding: 20px;
+    border-left: 3px solid #eee;
+}
+.bs-callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+    margin-bottom: 0;
+}
+
+.bs-callout-danger {
+    background-color: #fdf7f7;
+    border-color: #eed3d7;
+}
+.bs-callout-danger h4 {
+    color: #b94a48;
+}
+.bs-callout-warning {
+    background-color: #faf8f0;
+    border-color: #faebcc;
+}
+.bs-callout-warning h4 {
+    color: #8a6d3b;
+}
+.bs-callout-info {
+    background-color: #f4f8fa;
+    border-color: #bce8f1;
+}
+.bs-callout-info h4 {
+    color: #34789a;
 }
 
 /* RESPONSIVE CSS

@@ -69,7 +69,7 @@
                 </div>
                 <div class="col-lg-3 graph-date">
                     <span class="glyphicon glyphicon-calendar"></span>
-                    &nbsp;27-DECEMBER
+                    &nbsp;<span id="current-date">&nbsp;</span>
                 </div>
             </div>
         </div>
@@ -141,32 +141,91 @@
 
     <div class="alert-warning trade-main-bg"><div class="container">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 <h2 class="trade-heading">Trades</h2>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <h2 class="trade-heading">Chat</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 <div id="trade-area"><div></div></div>
             </div>
-            <div class="col-lg-4"><div class="trade-chat-bg">
-                CHAT
+            <div class="col-lg-5"><div class="trade-chat-bg">
+
+                <!-- USER NAME HERE -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">@</span>
+                                <input
+                                    id="username"
+                                    type="text"
+                                    class="form-control"
+                                    value="Anonymous"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TEXT CHAT BOX -->
+                <div class="form-group">
+                    <div class="input-group">
+                        <input
+                            id="chat-text"
+                            type="text"
+                            class="form-control"
+                            placeholder="Chat Message"
+                        >
+                        <span class="input-group-btn">
+                            <button
+                                class="btn btn-default"
+                                type="button"
+                            >Send</button>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- CHAT AREA TEXT MESSAGES POPULATE HERE -->
+                <div id="chat-area"><div></div></div>
+
+<div class="bs-callout bs-callout-info">
+<h4>Don't mix with form groups</h4>
+<p>Do not apply input group classes directly to form groups. An input group is an isolated component.</p>
+</div>
+
+<div class="bs-callout bs-callout-warning">
+<h4>Don't mix with form groups</h4>
+<p>Do not apply input group classes directly to form groups. An input group is an isolated component.</p>
+</div>
+
+
+
+
             </div></div>
         </div>
     </div></div>
 
+    <script id="chat-template" type="text/template">
+        <div class="bs-callout bs-callout-{mode}">
+            <h4>{username}</h4>
+            <p>{message}</p>
+        </div>
+    </script>
+
     <script id="trade-template" type="text/template">
         <div class="row trade-line-bg">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="trade-time-ago">
                     <span id="trade-time-ago-{tid}">{time}</span>
                     Seconds Ago
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <div class="trade-value-block">
                     <div class="relative">
                         <div class="trade-arrows">
