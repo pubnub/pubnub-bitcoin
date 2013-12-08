@@ -4,23 +4,127 @@
     padding-top: 40px;
     padding-bottom: 40px;
 }
+
+/* MAIN HEADING + ANIMATION
+-------------------------------------------------------------------- */
 .jumbotron {
-    text-shadow: 2px 2px 1px #fff;
+    margin: 0;
+    color: #fff;
+    text-shadow: 0px 0px 6px rgba(0,0,0,0.3);
     text-align: center;
-    background: radial-gradient(rgba(217,237,247,.9) 15%, transparent 16%) 0 0;
-    background-color: rgba(217,237,247,0.5);
-    background-size: 16px 16px;
+    background-image: url(../media/bitcoin-half-opacity.png);
+    background-color: rgba(255,160,20,1.0);
+    background-size: 128px 128px;
+    -webkit-animation: slide 36s linear infinite;
+}
+.jumbotron-glow {
+    background: radial-gradient(
+        rgba(255,255,255,0.4) 5%,
+        rgba(255,255,255,0.0) 70%
+    ) 0 0;
 }
 .jumbotron .btn {
     text-shadow: 0px 0px 0px transparent;
-    font-size: 21px;
+    font-size: 25px;
     padding: 14px 24px;
 }
+@-webkit-keyframes slide {
+    0%   { background-position: 0px 0px;      }
+    100% { background-position: 1024px -512px; }
+}
+
+.jumbotron-footer {
+    margin-bottom: 50px;
+    color: #fff;
+    background-image: url(../media/bitcoin-half-opacity.png);
+    background-color: rgba(255,130,0,0.6);
+    background-size: 128px 128px;
+    -webkit-animation: slide 36s linear infinite;
+}
+.graph-icon {
+    background: rgba(255,130,0,0.3);
+    text-align: center;
+    font-size: 30px;
+    line-height: 60px;
+}
+.graph-date {
+    text-align: right;
+    font-size: 30px;
+    font-weight: 100;
+    line-height: 60px;
+}
+.graph-title {
+    font-size: 30px;
+    font-weight: 200;
+    line-height: 60px;
+    text-transform: uppercase;
+}
+
+/* MAIN DASHBOARD REAL VALUES
+-------------------------------------------------------------------- */
+.btc-big {
+    letter-spacing: -4px;
+    line-height: 100px;
+    font-size: 90px;
+    font-weight: 100;
+    color: #f90;
+    text-align: right;
+}
+.btc-big-label-focus,
+.btc-big-label {
+    letter-spacing: 0px;
+    font-weight: 200;
+    line-height: 30px;
+    font-size: 30px;
+    text-align: right;
+    text-transform: uppercase;
+}
+.btc-big-label {
+    color: #777;
+}
+.btc-big-label-focus {
+    color: rgb(91,192,222);
+}
+
+
+/* D3 GRAPH
+-------------------------------------------------------------------- */
+#chart-graph-area {
+    margin-top: 50px;
+    background: rgb(61,162,192);
+}
+#chart-graph {
+    width: 100%;
+    height: 100px;
+    margin: 0;
+    margin-top: 20px;
+}
+.area {
+    fill: rgb(91,192,222);
+}
+
+#chart-graph-footer {
+    margin-top: -5px;
+    background: rgb(61,162,192);
+    color: #fff;
+    font-size: 20px;
+    line-height: 60px;
+    text-align: center;
+    font-weight: 100;
+    letter-spacing: 1px;
+}
+
+
+/* MARKETING SECTIONS
+-------------------------------------------------------------------- */
 .featurebg {
     color: #dfdfee;
     font-weight: 200;
     text-shadow: 2px 2px 1px rgba(0,0,0,0.3);
-    background: radial-gradient(rgba(66,139,202,.5) 15%, transparent 16%) 0 0;
+    background: radial-gradient(
+        rgba(66,139,202,0.5) 15%,
+        rgba(66,139,202,0.0) 16%
+    ) 0 0;
     background-color: rgba(66,139,202,0.8);
     background-size: 16px 16px;
     border-top: 28px solid rgba(255,255,255,0.1);
@@ -68,8 +172,8 @@ h2 {
 .lead-icon-heading-right,
 .lead-icon-heading {
     margin: 0;
-    margin-top: 100px;
-    font-size: 300px;
+    margin-top: 0px;
+    font-size: 0px;
     line-height: 0px;
 }
 .lead-icon-heading-right {
@@ -80,63 +184,58 @@ h2 {
     display : none;
 }
 
-/* Featurettes
-------------------------- */
+/* FEATURETTES
+-------------------------------------------------------------------- */
 
 .featurette-divider {
-    margin: 80px 0; /* Space out the Bootstrap <hr> more */
+    margin: 80px 0;
 }
 
-/* Thin out the marketing headings */
 .featurette-heading {
     font-weight: 300;
     line-height: 1;
     letter-spacing: -1px;
 }
+
 /* RESPONSIVE CSS
--------------------------------------------------- */
+-------------------------------------------------------------------- */
 
 @media (min-width: 768px) {
-
-  /* Remove the edge padding needed for mobile */
-  .marketing {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  /* Navbar positioning foo */
-  .navbar-wrapper {
-    margin-top: 20px;
-  }
-  .navbar-wrapper .container {
-    padding-left:  15px;
-    padding-right: 15px;
-  }
-  .navbar-wrapper .navbar {
-    padding-left:  0;
-    padding-right: 0;
-  }
-
-  /* The navbar becomes detached from the top, so we round the corners */
-  .navbar-wrapper .navbar {
-    border-radius: 4px;
-  }
-
-  /* Bump up size of carousel content */
-  .carousel-caption p {
-    margin-bottom: 20px;
-    font-size: 21px;
-    line-height: 1.4;
-  }
-
-  .featurette-heading {
-    font-size: 50px;
-  }
-
+    .marketing {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .navbar-wrapper {
+        margin-top: 20px;
+    }
+    .navbar-wrapper .container {
+        padding-left:  15px;
+        padding-right: 15px;
+    }
+    .navbar-wrapper .navbar {
+        padding-left:  0;
+        padding-right: 0;
+    }
+    .navbar-wrapper .navbar {
+        border-radius: 4px;
+    }
+    .carousel-caption p {
+        margin-bottom: 20px;
+        font-size: 21px;
+        line-height: 1.4;
+    }
+    .featurette-heading {
+        font-size: 50px;
+    }
 }
 
 @media (min-width: 992px) {
-  .featurette-heading {
-    margin-top: 120px;
-  }
+    .featurette-heading {
+        margin-top: 120px;
+    }
+    .lead-icon-heading-right,
+    .lead-icon-heading {
+        margin-top: 100px;
+        font-size: 300px;
+    }
 }

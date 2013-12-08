@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div id="wrap"><div class="navbar navbar-default">
+    <div id="wrap"><div class="navbar-default">
     <div class="container">
         <div class="navbar-header">
             <a
@@ -24,39 +24,26 @@
             <li><a href="#get-started">
                 Get Started
             </a></li>
-            <li><a href="#datasync-docs">
-                Docs
-                &nbsp;<span class="glyphicon glyphicon-book"></span>
+
+            <li><a href="#get-started">
+                Get Started
             </a></li>
-            <li><a href="https://github.com/stephenlb/bootstrap-stream-feeder">
-                View on GitHub
-            </a></li>
-            <li><a
-            target="bugreport"
-            href="https://github.com/stephenlb/bootstrap-stream-feeder/issues/new"
-            >
-                Purchase
-                &nbsp;<span class="glyphicon glyphicon-user"></span>
-            </a>
-            </li>
         </ul>
     </div>
     </div></div>
 
-    <div class="jumbotron">
+    <div class="jumbotron"><div class="jumbotron-glow">
         <h1>Bitcoin Solution Kit</h1>
         <div class="container">
             <p class="lead">
-                A real-time feed management system that enables the rapid
-                broadcasting of headlines 
-                <br>
-                for applications in
-                <strong>social news</strong>,
-                social TV,
-                social music,
-                social sports,
-                social commerce and
-                social finance.
+                To quickly and easily deliver powerful
+                Bitcoin exchanges features using the
+                <strong>PubNub Real-Time</strong>
+                <strong>Network</strong>
+                to provide the real-time infrastructure and
+                simplify this process with this
+                Bitcoin Exchange Solution Kit
+                which includes core components.
             </p>
             <p><a
                 class="btn btn-lg btn-info"
@@ -64,11 +51,83 @@
                 role="button"
             >Get Started</a></p>
         </div>
+    </div></div>
+
+
+    <!-- JUMBOTRON FOOTER AND SECTION HEADER FOR DASHBOARD -->
+    <div class="jumbotron-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-1 graph-icon">
+                    <span class="glyphicon glyphicon-stats"></span>
+                </div>
+                <div class="col-lg-8 graph-title">
+                    Real-time
+                </div>
+                <div class="col-lg-3 graph-date">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    &nbsp;27-DECEMBER
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
+
+
+
+
+
+    <!-- DASHBOARD STARTING AREA HERE -->
+    <div class="container">
+
+        <!-- VAULES -->
+        <div class="row">
+            <div class="col-lg-4">
+                <div id="btc-current" class="btc-big">0,000.00</div>
+                <div class="btc-big-label-focus">current</div>
+            </div>
+            <div class="col-lg-4">
+                <div id="btc-high" class="btc-big">0,000.00</div>
+                <div class="btc-big-label">high</div>
+            </div>
+            <div class="col-lg-4">
+                <div id="btc-low" class="btc-big">0,000.00</div>
+                <div class="btc-big-label">low</div>
+            </div>
+        </div>
+    </div>
+
+        <!-- GRAPH CHART -->
+    <div id="chart-graph-area">
+    <div class="container">
+        <svg id="chart-graph"></svg>
+        <div id="chart-graph-footer">
+            <div class="row">
+                <div class="col-lg-1">
+                    <span class="glyphicon glyphicon-bookmark">
+                    </span>
+                </div>
+                <div class="col-lg-2">Sun</div>
+                <div class="col-lg-1">Mon</div>
+                <div class="col-lg-2">Tue</div>
+                <div class="col-lg-1">Wed</div>
+                <div class="col-lg-2">Thu</div>
+                <div class="col-lg-1">Fri</div>
+                <div class="col-lg-2">Sat</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
 
     <div class="container">
         ...
     </div>
+
+
+
 
     <div class="featurebg"><div class="container">
         <div class="row">
@@ -770,49 +829,24 @@ function uuid() {
         <div class="col-lg-6">
             <h3>pubnub-sync.js TODO</h3>
             <ul class="list-group">
-                <li class="list-group-item">ADD CRYPTO</li>
-                <li class="list-group-item">ADD CRYPTO</li>
-                <li class="list-group-item">ADD CRYPTO</li>
-                <li class="list-group-item">grant(read,write,ttl)</li>
-                <li class="list-group-item">localStorage max 5MB... fix?</li>
-                <li class="list-group-item">sortby</li>
-                <li class="list-group-item">
-                Updates In progress:
-                - Show the changes along with the
-                - full object in the onUPDATE event.
-                - Return Full Object in Array for Find method.
-                - domain to transactionID
-                </li>
-                <li class="list-group-item">and table editor tool</li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item">CloudBase.IO Integration</li>
                 <li class="list-group-item"></li>
                 <li class="list-group-item"></li>
                 <li class="list-group-item"></li>
-                <li class="list-group-item">
-            I'm adding these to an FAQ:<br>
-            Is key the only attribute that you can use for the find call?<br>
-            you can use any key/value pair.  { "toast" : "golden" }<br>
-            Is the return from find a standard Array?<br>
-            Yes.<br>
-            What channel are you using for transmitting db changes?<br>
-            the "name" of the database.<br>
-            var db = PUBNUB.sync( 'db1', settings );<br>
-                </li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
             </ul>
         </div>
+    </div></div>
 
-        <div class="col-lg-6">
-            <h3>Bootstrap Content Feeder TODO</h3>
-            <ul class="list-group">
-                <li class="list-group-item">add ordering</li>
-                <li class="list-group-item">Reload config dynamic</li>
-                <li class="list-group-item">setup form api key</li>
-                <li class="list-group-item">code snippets</li>
-                <li class="list-group-item">viewer embed code</li>
-                <li class="list-group-item">editor settings</li>
-                <li class="list-group-item">previewer</li>
-                <li class="list-group-item"></li>
+
+
 
     <!-- Site footer -->
     <div class="container">
@@ -821,12 +855,89 @@ function uuid() {
         </div>
     </div>
 
+<script id="tsv" type="text/data">
+1-May-12        582.13
+30-Apr-12       583.98
+27-Apr-12       603.00
+26-Apr-12       607.70
+25-Apr-12       610.00
+24-Apr-12       560.28
+23-Apr-12       571.70
+20-Apr-12       572.98
+19-Apr-12       587.44
+18-Apr-12       608.34
+17-Apr-12       609.70
+16-Apr-12       580.13
+13-Apr-12       605.23
+12-Apr-12       622.77
+11-Apr-12       626.20
+10-Apr-12       628.44
+9-Apr-12        636.23
+5-Apr-12        633.68
+4-Apr-12        624.31
+3-Apr-12        629.32
+2-Apr-12        618.63
+30-Mar-12       599.55
+29-Mar-12       609.86
+28-Mar-12       617.62
+27-Mar-12       614.48
+26-Mar-12       606.98
+23-Mar-12       596.05
+22-Mar-12       599.34
+21-Mar-12       602.50
+20-Mar-12       605.96
+19-Mar-12       601.10
+16-Mar-12       585.57
+15-Mar-12       585.56
+14-Mar-12       589.58
+13-Mar-12       568.10
+12-Mar-12       552.00
+9-Mar-12        545.17
+7-Mar-12        530.69
+6-Mar-12        530.26
+5-Mar-12        533.16
+2-Mar-12        545.18
+1-Mar-12        544.47
+29-Feb-12       542.44
+28-Feb-12       535.41
+27-Feb-12       525.76
+24-Feb-12       522.41
+23-Feb-12       516.39
+22-Feb-12       513.04
+17-Feb-12       502.12
+16-Feb-12       502.21
+15-Feb-12       497.67
+14-Feb-12       509.46
+13-Feb-12       502.60
+10-Feb-12       493.42
+9-Feb-12        493.17
+8-Feb-12        476.68
+7-Feb-12        468.83
+3-Feb-12        459.68
+2-Feb-12        455.12
+1-Feb-12        456.19
+31-Jan-12       456.48
+30-Jan-12       453.01
+27-Jan-12       447.28
+26-Jan-12       444.63
+25-Jan-12       446.66
+24-Jan-12       420.41
+23-Jan-12       427.41
+20-Jan-12       420.30
+19-Jan-12       427.75
+18-Jan-12       429.11
+17-Jan-12       424.70
+</script>
+
 
 <script src="https://pubnub.a.ssl.fastly.net/pubnub.min.js"></script>
 <script src="https://pubnub.a.ssl.fastly.net/pubnub-crypto.min.js"></script>
 <script src="dist/js/animate.js"></script>
 <script src="dist/js/sound.js"></script>
+<script src="dist/js/mtgox.js"></script>
 <script src="dist/js/app.js"></script>
+<script src="dist/js/d3.js"></script>
+<script src="dist/js/graph.js"></script>
 
 <script>
 piAId='29622';
