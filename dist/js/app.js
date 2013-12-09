@@ -99,7 +99,7 @@ PUBNUB.events.bind( 'trade.BTC', function(data) {
     timeagos.push(timeago);
 
     // REMOVE OLDER TRADES TO PREVENT OVERFLOW
-    if (divs.length < 15) return;
+    if (divs.length < 14) return;
     trade_area.removeChild(divs.shift());
     timeagos.shift();
 
@@ -187,7 +187,7 @@ function receive_chat_message( user, message, date, color ) {
     chat_area.insertBefore( div, first_div(chat_area) );
 
     // REMOVE OLD
-    if (chat_refs.length < 10) return;
+    if (chat_refs.length < 12) return;
     chat_area.removeChild(chat_refs.shift());
 }
 
@@ -195,15 +195,27 @@ function receive_chat_message( user, message, date, color ) {
 chat_net.subscribe({
     backfill : true,
     channel  : chat_channel,
-    message  : function(data) {
-        if (!safe(data.message)) return;
+    message  : process_inbound_chat
+});
 
-        receive_chat_message(
-            safe(data.user),
-            safe(data.message),
-            safe(data.date),
-            safe(data.color)
-        );
+// PROCESS A RECEIVED MESSAGE AND PREPARE FOR BUBBLE UPWARDS TO UI
+function process_inbound_chat(data) {
+    if (!safe(data.message)) return;
+
+    receive_chat_message(
+        safe(data.user),
+        safe(data.message),
+        safe(data.date),
+        safe(data.color)
+    );
+}
+
+// LOAD HISTORY FOR CHAT MESSAGES
+chat_net.history({
+    channel  : chat_channel,
+    limit    : 15,
+    callback : function(messages) {
+        PUBNUB.each( messages[0], process_inbound_chat );
     }
 });
 
