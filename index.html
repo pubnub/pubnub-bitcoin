@@ -23,8 +23,16 @@
             >PubNub Bitcoin Solution Kit</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#get-started">
-                Get Started
+            <li><a href="#trades">
+                Trades
+            </a></li>
+
+            <li><a href="#chat">
+                Live Chat
+            </a></li>
+
+            <li><a href="#features">
+                Features
             </a></li>
 
             <li><a href="#get-started">
@@ -43,9 +51,9 @@
                 Bitcoin exchanges features using the
                 <strong>PubNub Real-Time</strong>
                 <strong>Network</strong>
-                to provide the real-time infrastructure and
-                simplify this process with this
-                Bitcoin Exchange Solution Kit
+                to provide real-time infrastructure and
+                simplify the process with this
+                <strong>Bitcoin Exchange Solution Kit</strong>
                 which includes core components.
             </p>
             <p><a
@@ -120,17 +128,17 @@
         <svg id="chart-graph"></svg>
         <div id="chart-graph-footer">
             <div class="row">
-                <div class="col-lg-1">
+                <div class="col-xs-1">
                     <span class="glyphicon glyphicon-bookmark">
                     </span>
                 </div>
-                <div class="col-lg-2">Sun</div>
-                <div class="col-lg-1">Mon</div>
-                <div class="col-lg-2">Tue</div>
-                <div class="col-lg-1">Wed</div>
-                <div class="col-lg-2">Thu</div>
-                <div class="col-lg-1">Fri</div>
-                <div class="col-lg-2">Sat</div>
+                <div class="col-xs-2">Sun</div>
+                <div class="col-xs-1">Mon</div>
+                <div class="col-xs-2">Tue</div>
+                <div class="col-xs-1">Wed</div>
+                <div class="col-xs-2">Thu</div>
+                <div class="col-xs-1">Fri</div>
+                <div class="col-xs-2">Sat</div>
             </div>
         </div>
     </div>
@@ -139,6 +147,8 @@
     <div class="container">
     </div>
 
+    <div id="trades"></div>
+    <div id="chat"></div>
     <div class="alert-warning trade-main-bg"><div class="container">
         <div class="row">
             <div class="col-lg-7">
@@ -258,111 +268,138 @@
     </script>
 
     <!-- MARKETING SECTION BEGINS WITH FEATURES AND DETAILS -->
+    <div id="features"></div>
     <div class="featurebg"><div class="container">
         <div class="row">
             <div class="col-lg-4">
                 <h2>
+                    <!--
                     <span
                     class="glyphicon glyphicon-cloud-download"></span>
-                    &nbsp;DataSync
+                    &nbsp;-->
+                    Live Real-time Public Pricing Data Stream
                 </h2>
                 <p>
-                    ...
+                    All trading platforms require up to the millisecond
+                    pricing information in order to execute trades
+                    effectively. Building the infrastructure to stream
+                    this data to thousands of devices simultaneously
+                    can be costly and difficult to manage.
+                    PubNub provides a core messaging platform allowing
+                    developers to publish data streams to millions of
+                    devices in less than ¼ of a second without the
+                    need for any costly servers or configuration.
                 </p>
             </div>
             <div class="col-lg-4">
                 <h2>
-                    <span class="glyphicon glyphicon-globe"></span>
-                    &nbsp;Real-time Network
+                    Full Transaction and Pricing History API
                 </h2>
                 <p>
-                    ...
+                    Accurate tracking of transaction data and history is
+                    critical to providing a seamless trading experience.
+                    PubNub can automatically record all data that has
+                    been published over the network for quick retrieval
+                    and playback.
+                    In the event a transaction is
+                    interrupted for some reason (network connection
+                    issues, for example) you could quickly recall
+                    historical transaction data and complete
+                    the transaction.
                 </p>
             </div>
             <div class="col-lg-4">
                 <h2>
-                    <span class="glyphicon glyphicon-lock"></span>
-                    &nbsp;Top Security
+                    Secure Streaming Channels to Users
                 </h2>
                 <p>
-                    ...
+                    Security is paramount in a trading platform.
+                    Transaction and account information must be kept
+                    private from end to end.
+                    PubNub offers various encryption and access control
+                    options to manage all stream data.
+                    Access can be controlled for all operations
+                    within the PubNub network.
                 </p>
             </div>
         </div>
     </div></div>
 
-
-    <div class="container">
-      <div class="row featurette">
+    <div class="container"><div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading">
-            Oh yeah, it's real DataSync.
-            <span class="text-muted">See for yourself.</span>
-          </h2>
-          <p class="lead">
-              Guaranteed DataSync to Mobile and Web Clients
-              Dramatically simplifies app development.
-              <strong>Schema-less NoSQL</strong>
-              offers easy data entry
-              without hindering productivity.
-          </p>
+            <h2 class="featurette-heading">
+                User Detection & Collaboration
+                <span class="text-muted">
+                    Capture Your User's Activity.
+                </span>
+            </h2>
+            <p class="lead">
+                Providing an interactive trading platform is helpful for
+                <strong>building a strong Bitcoin</strong> community,
+                sharing information about the new currency and providing
+                assistance throughout the trading process.
+                PubNub provides features that can detect the presence
+                of customers on the platform and the ability to easily
+                create collaborative features such as chat forums.
+            </p>
         </div>
         <div class="col-md-5">
-          <p class="lead-icon-heading-right">
-            <span class="glyphicon glyphicon-cloud-download"></span>
-          </p>
+            <p class="lead-icon-heading-right">
+                <span class="glyphicon glyphicon-user"></span>
+            </p>
         </div>
-      </div>
-    </div>
+    </div></div>
 
-    <div class="container">
-      <div class="row featurette">
+    <div class="container"><div class="row featurette">
         <div class="col-md-5">
-          <p class="lead-icon-heading">
-            <span class="glyphicon glyphicon-dashboard"></span>
-          </p>
+            <p class="lead-icon-heading">
+                <span class="glyphicon glyphicon-dashboard"></span>
+            </p>
         </div>
         <div class="col-md-7">
-          <h2 class="featurette-heading">
-            Fastest Global Sync Delivery Speed.
-            <span class="text-muted">It'll blow your socks off.</span>
-          </h2>
-          <p class="lead">
-            <strong>Up to 15ms Sync Delivery Speeds.</strong>
-            PubNub announces JavaScript DataSync SDK.
-            Many customers are using
-            <strong>DataSync</strong> today
-            on the PubNub Real-time Network.
-            We made it even easy
-            by offering an SDK enabling
-            true DataSync powered by the worlds largest
-            Global Real-time Network.
-          </p>
+            <h2 class="featurette-heading">
+                Reliable, Persistent Network Connections.
+                <span class="text-muted">
+                    An Always-Open Line to All Your Users.
+                </span>
+            </h2>
+            <p class="lead">
+                <strong>Up to 15ms Sync Delivery Speeds.</strong>
+                PubNub announces JavaScript DataSync SDK.
+                Many customers are using
+                <strong>DataSync</strong> today
+                on the PubNub Real-time Network.
+                We made it even easy
+                by offering an SDK enabling
+                true DataSync powered by the worlds largest
+                Global Real-time Network.
+            </p>
         </div>
-      </div>
-    </div>
+    </div></div>
 
-    <div class="container">
-      <div class="row featurette">
+    <div class="container"><div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading">
-            Auto Catch-up after Dropped Connection.
-            <span class="text-muted">Zero Loss.</span>
-          </h2>
-          <p class="lead">
-            High speed reconnection times allow recover
-            of lost data in a snap.
-            After a successful reconnect all pending
-            read/write events are sync'ed.
-          </p>
+            <h2 class="featurette-heading">
+                User Analytics.
+                <span class="text-muted">
+                    Track Visitors and Volumes.
+                </span>
+            </h2>
+            <p class="lead">
+                Understanding user behaviour is critical to any
+                emerging platform. PubNub provides key analytic
+                data to track unique visitor, traffic volume by
+                data type and geographical information over time.
+                All of this data is presented in a dashboard in
+                our customer portal.
+            </p>
         </div>
         <div class="col-md-5">
-          <p class="lead-icon-heading-right">
-            <span class="glyphicon glyphicon-signal"></span>
-          </p>
+            <p class="lead-icon-heading-right">
+                <span class="glyphicon glyphicon-stats"></span>
+            </p>
         </div>
-      </div>
-    </div>
+    </div></div>
 
     <!-- DOCUMENTATION PART 1 -->
     <div class="featurebg2 featurebg2-padding"><div class="container">

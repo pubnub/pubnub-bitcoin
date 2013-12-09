@@ -288,12 +288,20 @@
 }
 .featurebg h2 {
     color: #efefee;
-    font-weight: 200;
+    font-weight: 100;
+    font-size: 38px;
+    line-height: 48px;
+    margin-bottom: 30px;
 }
 .featurebg a {
     color: #b23858;
     text-shadow: 0px 0px 2px #fff;
     font-weight: 500;
+}
+.featurebg p {
+    line-height: 29px;
+    font-size: 22px;
+    font-weight: 100;
 }
 
 
