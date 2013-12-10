@@ -12,8 +12,6 @@
 
 <body>
 
-
-
 <!-- NAVIGATION -->
 <div id="wrap"><div class="navbar-default">
 <div class="container">
@@ -25,7 +23,7 @@
         >PubNub Exchange Bitcoin Solution Kit</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#trades">
+        <li><a href="#get-started">
             View Code
         </a></li>
 
@@ -371,13 +369,10 @@
         </h2>
         <p class="lead">
             <strong>Up to 15ms Sync Delivery Speeds.</strong>
-            PubNub announces JavaScript DataSync SDK.
             Many customers are using
-            <strong>DataSync</strong> today
             on the PubNub Real-time Network.
             We made it even easy
             by offering an SDK enabling
-            true DataSync powered by the worlds largest
             Global Real-time Network.
         </p>
     </div>
@@ -408,27 +403,19 @@
 </div></div>
 
 
-
-
-
-
-
 <!-- PUBNUB DOCUMENTATION SECTION -->
 
-
 <!-- GET API KEYS -->
+<div id="get-started"></div>
 <div class="pubnub-code-docs pubnub-code-init"><div class="container">
     <div class="row">
         <div class="col-lg-12">
             <h4>Get PubNub API Keys</h4>
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">
-                    DataSync starts with an always-on Socket Connection
-                </h3></div>
                 <div class="panel-body">
                     <p>
-                        You'll need some API Keys to play with.
-                        Start by following these easy steps:
+                        You'll need some API Keys to get started.
+                        Follow these easy steps:
                     </p>
 
                     <table class="table table-hover">
@@ -446,7 +433,8 @@
                                     PubNub Admin Portal
                                 </a>
                                 <p><small>
-                                    Optionally Watch PubNub Basic Video 1 -
+                                    Optionally Watch
+                                    PubNub Basic Video 1 -
                                     <a href="https://vimeo.com/78274848">
                                         Registering for PubNub API Keys
                                     </a>
@@ -501,10 +489,6 @@ var pubnub = PUBNUB.init({
 </div></div>
 
 
-
-
-
-
 <!-- OPENING EXCHANGE STREAM (MT.GOX AS EXAMPLE) -->
 <div class="pubnub-code-docs pubnub-code-init"><div class="container">
     <div class="row">
@@ -542,11 +526,6 @@ pubnub.subscribe({
 </div></div>
 
 
-
-
-
-
-
 <!-- BINDING TO DATA EVENT (MT.GOX AS EXAMPLE) -->
 <div class="pubnub-code-docs pubnub-code-init"><div class="container">
     <div class="row">
@@ -580,8 +559,6 @@ PUBNUB.events.bind( 'TICKER', function(data) {
         </div>
     </div>
 </div></div>
-
-
 
 
 <!-- DRAWING GRAPH WITH D3.JS -->
@@ -645,28 +622,54 @@ add_data(data); // append more data;
 </div></div>
 
 
-
-
-
-
 <!-- CHAT -->
 <div class="pubnub-code-docs pubnub-code-init"><div class="container">
     <div class="row">
         <div class="col-lg-6">
             <h4>Multi-user Group Chat</h4>
 <pre class="code">
-...
+// INIT PUB/SUB KEY
+var pubnub_chat = PUBNUB.init({
+    publish_key   : 'YOUR_SUBSCRIBE_KEY_HERE',
+    subscribe_key : 'YOUR_SUBSCRIBE_KEY_HERE'
+});
+
+// OPEN DATA STREAM FOR RECEIVING CHAT MESSAGES
+pubnub_chat.subscribe({
+    backfill : true,
+    channel  : chat_channel,
+    message  : process_inbound_chat
+});
+
+// SEND A CHAT MESSAGE
+function send_chat_message( user, message ) {
+    var msg = safe(message);
+    if (!msg) return;
+
+    pubnub_chat.publish({
+        channel : chat_channel,
+        message : {
+            color   : chat_color,
+            date    : +new Date,
+            user    : safe(user),
+            message : msg
+        }
+    });
+}
 </pre>
         </div>
         <div class="col-lg-6">
-            <h4>Anonymous Topic Focus Communication</h4>
+            <h4>Anonymous Group Communication</h4>
             <p>
-                ...
+                Create a new instance of PubNub with a second
+                set of API Keys for anonymous group chat.
+                This keeps the namespace separate from your
+                secure streams allowing your users to 
+                chat in real-time over anonymous wire.
             </p>
         </div>
     </div>
 </div></div>
-
 
 
 <!-- LOADING HISTORY FOR PRE-POPULATION -->
@@ -676,7 +679,7 @@ add_data(data); // append more data;
             <h4>Load Historical Events</h4>
 <pre class="code">
 pubnub.history({
-    limit    : 5,
+    limit    : 10,
     channel  : 'TICKER',
     callback : history_receiver
 })
@@ -689,70 +692,17 @@ function history_receiver(messages) {
         <div class="col-lg-6">
             <h4>Pre-populate UI at First Load</h4>
             <p>
-                ...
+                Load data from storage back-end in order to
+                update your user interface with latest changes.
+                This is a good idea to do before you open the
+                TCP Socket Stream so you may pre-populate
+                the user interface with most recent events
+                and get the newly launched app in-sync
+                with everyone else.
             </p>
         </div>
     </div>
 </div></div>
-
-
-
-
-
-
-
-<!-- ... -->
-<div class="pubnub-code-docs pubnub-code-init"><div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <h4>PubNub - Class Instance</h4>
-<pre class="code">
-...
-</pre>
-        </div>
-        <div class="col-lg-6">
-            <h4>Introduciton Details</h4>
-            <p>
-                ...
-            </p>
-        </div>
-    </div>
-</div></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="container"><div class="row">
-    <div class="col-lg-6">
-        <h3>TODO List</h3>
-        <ul class="list-group">
-            <li class="list-group-item">make footer</li>
-            <li class="list-group-item">more refs to pubnub links</li>
-            <li class="list-group-item">link to mtgox wiki</li>
-            <li class="list-group-item">link to mtgox</li>
-            <li class="list-group-item">updates new marketing doc</li>
-            <li class="list-group-item">hook up graph</li>
-            <li class="list-group-item">needs code documentation</li>
-            <li class="list-group-item">social buttons</li>
-            <li class="list-group-item">where does Get Started go?</li>
-            <li class="list-group-item">-webkit- always-on</li>
-            <li class="list-group-item"></li>
-        </ul>
-    </div>
-</div></div>
-
-
 
 
 <!-- Site footer -->
@@ -761,7 +711,6 @@ function history_receiver(messages) {
         <p>&copy; PubNub 2013</p>
     </div>
 </div>
-
 
 
 <!-- ====== -->
