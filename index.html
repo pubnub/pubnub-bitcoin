@@ -13,316 +13,6 @@
 <body>
 
 
-<!-- PUBNUB DOCUMENTATION SECTION -->
-
-
-<!-- GET API KEYS -->
-<div class="pubnub-code-docs pubnub-code-init"><div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h4>Get PubNub API Keys</h4>
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">
-                    DataSync starts with an always-on Socket Connection
-                </h3></div>
-                <div class="panel-body">
-                    <p>
-                        You'll need some API Keys to play with.
-                        Start by following these easy steps:
-                    </p>
-
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Step</th>
-                                <th>Action to Take</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>1</td><td>
-                                Signup For PubNub - 
-                                <a href="https://admin.pubnub.com/">
-                                    Signup/Login to 
-                                    PubNub Admin Portal
-                                </a>
-                                <p><small>
-                                    Optionally Watch PubNub Basic Video 1 -
-                                    <a href="https://vimeo.com/78274848">
-                                        Registering for PubNub API Keys
-                                    </a>
-                                    <br>
-                                    The video also describes what
-                                    each key purpose.
-                                </small></p>
-                            </td></tr>
-                            <tr><td>2</td><td>
-                                Paste in your API Keys
-                                and run <code>PUBNUB.init(...)</code>
-                                <em>continue reading below.</em>
-                            </td></tr>
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div></div>
-
-
-<!-- INIT CODE DOCS -->
-<div class="pubnub-code-docs pubnub-code-init"><div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <h4>PubNub Class Instance Create</h4>
-<pre class="code">
-var pubnub = PUBNUB.init({
-    subscribe_key : 'YOUR_SUBSCRIBE_KEY_HERE'
-});
-</pre>
-        </div>
-        <div class="col-lg-6">
-            <h4>Introduction Details</h4>
-            <p>
-                This is the first step to initialize
-                the Connection Class
-                which will be used in the
-                following steps below.
-            </p><p>
-                The following examples below will
-                show a few more options
-                that will allow you to open TCP sockets and stream
-                only the data that you are interested in.
-                This is called <strong>Stream Multiplexing</strong>
-                which streams multiple feeds over a single TCP Socket.
-            </p>
-        </div>
-    </div>
-</div></div>
-
-
-
-
-
-
-<!-- OPENING EXCHANGE STREAM (MT.GOX AS EXAMPLE) -->
-<div class="pubnub-code-docs pubnub-code-init"><div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <h4>Opening Exchange Stream</h4>
-<pre class="code">
-pubnub.subscribe({
-    backfill : true,
-    channel  : [
-        'TICKER',
-        'TRADE'
-    ],
-    message  : function( message, env, channel ) {
-        // FIRE EVENT WHEN DATA ARRIVES
-        PUBNUB.events.fire( channel, message );
-    }
-});
-</pre>
-        </div>
-        <div class="col-lg-6">
-            <h4>Receiving Live Exchange Events</h4>
-            <p>
-                Begin the data stream with establishing
-                a <strong>Multiplexed TCP Subscription</strong>
-                to both the <em>trade</em> and <em>ticker</em>
-                channel names.
-
-                Using the PubNub event model, we will
-                fire events based on the channel name.
-                Then we can bind on these events in our
-                view model to update the User Interface.
-            </p>
-        </div>
-    </div>
-</div></div>
-
-
-
-
-
-
-
-<!-- BINDING TO DATA EVENT (MT.GOX AS EXAMPLE) -->
-<div class="pubnub-code-docs pubnub-code-init"><div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <h4>Binding to Data Event with Callback</h4>
-<pre class="code">
-//  -- TICKER DISPLAY -- 
-PUBNUB.events.bind( 'TRADE', function(data) {
-    console.log(data); // Update User Interface Here
-} );
-
-// -- TRADES (BUY/SELL) -- 
-PUBNUB.events.bind( 'TICKER', function(data) {
-    console.log(data); // Update User Interface Here
-} );
-</pre>
-        </div>
-        <div class="col-lg-6">
-            <h4>Hooking up to User Interfaces</h4>
-            <p>
-                Bind to the events which are fired from our
-                data model layer in order to update the
-                user interface.
-                By receiving this data we can issue
-                UI updates which change the display
-                of the ticker numbers
-                and also showing a log of all trades that occur.
-                You may also want to animate the UI to 
-                better demonstrate the changes occurring.
-            </p>
-        </div>
-    </div>
-</div></div>
-
-
-
-
-<!-- DRAWING GRAPH WITH D3.JS -->
-<div class="pubnub-code-docs pubnub-code-init"><div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <h4>Live Graph Data with D3.js</h4>
-<pre class="code">
-var svg  = d3.select("#chart-graph");
-var x    = d3.time.scale().range([0, 1140]);
-var y    = d3.scale.linear().range([280, 0]);
-var area = d3.svg.area()
-    .x(function(d)  { return x(d.date); })
-    .y0(100)
-    .y1(function(d) { return y(d.close); });
-
-(function add_data(data) {
-    data.forEach(function(d) {
-        d.date  = d3.time.format("%d-%b-%y").parse(d[0]);
-        d.close = +d[1];
-    });
-
-    x.domain(d3.extent(  data, function(d) { return d.date  }));
-    y.domain([0, d3.max( data, function(d) { return d.close })]);
-
-    svg.append("path")
-        .datum(data)
-        .attr("class", "area")
-        .attr("d", area);
-})(
-    /* [ initial [x,y],.. array of arrays here ] */
-);
-
-add_data(data); // append more data;
-add_data(data); // append more data;
-</pre>
-        </div>
-        <div class="col-lg-6">
-            <h4>Graphing Ticker Price Changes</h4>
-            <p>
-                With data streaming in real-time it is easy
-                to capture and display visual reference data
-                in graph form using <strong>d3.js</strong>
-                rendering the dual axis changes in the ticker
-                price over time.
-                X-axis is price and Y-axis is time.
-                This code gets you started with the graphing points.
-                Note that you need a HTML div element named
-                <code>&lt;div id="chart-graph"&gt;&lt;/div&gt;</code>
-                as the place holder for the graph.
-            </p>
-            <p>
-                You can find the 
-                <a href="http://d3js.org/">
-                    D3.js graphing library for
-                    data driven documents here.
-                </a>
-            </p>
-        </div>
-    </div>
-</div></div>
-
-
-
-
-
-
-<!-- CHAT -->
-<div class="pubnub-code-docs pubnub-code-init"><div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <h4>Multi-user Group Chat</h4>
-<pre class="code">
-...
-</pre>
-        </div>
-        <div class="col-lg-6">
-            <h4>Anonymous Topic Focus Communication</h4>
-            <p>
-                ...
-            </p>
-        </div>
-    </div>
-</div></div>
-
-
-
-<!-- LOADING HISTORY FOR PRE-POPULATION -->
-<div class="pubnub-code-docs pubnub-code-init"><div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <h4>Load Historical Events</h4>
-<pre class="code">
-pubnub.history({
-    limit    : 5,
-    channel  : 'TICKER',
-    callback : history_receiver
-})
-
-function history_receiver(messages) {
-    console.log(messages);
-}
-</pre>
-        </div>
-        <div class="col-lg-6">
-            <h4>Pre-populate UI at First Load</h4>
-            <p>
-                ...
-            </p>
-        </div>
-    </div>
-</div></div>
-
-
-
-
-
-
-
-<!-- ... -->
-<div class="pubnub-code-docs pubnub-code-init"><div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <h4>PubNub - Class Instance</h4>
-<pre class="code">
-...
-</pre>
-        </div>
-        <div class="col-lg-6">
-            <h4>Introduciton Details</h4>
-            <p>
-                ...
-            </p>
-        </div>
-    </div>
-</div></div>
-
-
-
-
-
 
 <!-- NAVIGATION -->
 <div id="wrap"><div class="navbar-default">
@@ -718,6 +408,316 @@ function history_receiver(messages) {
 </div></div>
 
 
+
+
+
+
+
+<!-- PUBNUB DOCUMENTATION SECTION -->
+
+
+<!-- GET API KEYS -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>Get PubNub API Keys</h4>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">
+                    DataSync starts with an always-on Socket Connection
+                </h3></div>
+                <div class="panel-body">
+                    <p>
+                        You'll need some API Keys to play with.
+                        Start by following these easy steps:
+                    </p>
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Step</th>
+                                <th>Action to Take</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>
+                                Signup For PubNub - 
+                                <a href="https://admin.pubnub.com/">
+                                    Signup/Login to 
+                                    PubNub Admin Portal
+                                </a>
+                                <p><small>
+                                    Optionally Watch PubNub Basic Video 1 -
+                                    <a href="https://vimeo.com/78274848">
+                                        Registering for PubNub API Keys
+                                    </a>
+                                    <br>
+                                    The video also describes what
+                                    each key purpose.
+                                </small></p>
+                            </td></tr>
+                            <tr><td>2</td><td>
+                                Paste in your API Keys
+                                and run <code>PUBNUB.init(...)</code>
+                                <em>continue reading below.</em>
+                            </td></tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div></div>
+
+
+<!-- INIT CODE DOCS -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>PubNub Class Instance Create</h4>
+<pre class="code">
+var pubnub = PUBNUB.init({
+    subscribe_key : 'YOUR_SUBSCRIBE_KEY_HERE'
+});
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Introduction Details</h4>
+            <p>
+                This is the first step to initialize
+                the Connection Class
+                which will be used in the
+                following steps below.
+            </p><p>
+                The following examples below will
+                show a few more options
+                that will allow you to open TCP sockets and stream
+                only the data that you are interested in.
+                This is called <strong>Stream Multiplexing</strong>
+                which streams multiple feeds over a single TCP Socket.
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+
+
+<!-- OPENING EXCHANGE STREAM (MT.GOX AS EXAMPLE) -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Opening Exchange Stream</h4>
+<pre class="code">
+pubnub.subscribe({
+    backfill : true,
+    channel  : [
+        'TICKER',
+        'TRADE'
+    ],
+    message  : function( message, env, channel ) {
+        // FIRE EVENT WHEN DATA ARRIVES
+        PUBNUB.events.fire( channel, message );
+    }
+});
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Receiving Live Exchange Events</h4>
+            <p>
+                Begin the data stream with establishing
+                a <strong>Multiplexed TCP Subscription</strong>
+                to both the <em>trade</em> and <em>ticker</em>
+                channel names.
+
+                Using the PubNub event model, we will
+                fire events based on the channel name.
+                Then we can bind on these events in our
+                view model to update the User Interface.
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+
+
+
+<!-- BINDING TO DATA EVENT (MT.GOX AS EXAMPLE) -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Binding to Data Event with Callback</h4>
+<pre class="code">
+//  -- TICKER DISPLAY -- 
+PUBNUB.events.bind( 'TRADE', function(data) {
+    console.log(data); // Update User Interface Here
+} );
+
+// -- TRADES (BUY/SELL) -- 
+PUBNUB.events.bind( 'TICKER', function(data) {
+    console.log(data); // Update User Interface Here
+} );
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Hooking up to User Interfaces</h4>
+            <p>
+                Bind to the events which are fired from our
+                data model layer in order to update the
+                user interface.
+                By receiving this data we can issue
+                UI updates which change the display
+                of the ticker numbers
+                and also showing a log of all trades that occur.
+                You may also want to animate the UI to 
+                better demonstrate the changes occurring.
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+<!-- DRAWING GRAPH WITH D3.JS -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Live Graph Data with D3.js</h4>
+<pre class="code">
+var svg  = d3.select("#chart-graph");
+var x    = d3.time.scale().range([0, 1140]);
+var y    = d3.scale.linear().range([280, 0]);
+var area = d3.svg.area()
+    .x(function(d)  { return x(d.date); })
+    .y0(100)
+    .y1(function(d) { return y(d.close); });
+
+(function add_data(data) {
+    data.forEach(function(d) {
+        d.date  = d3.time.format("%d-%b-%y").parse(d[0]);
+        d.close = +d[1];
+    });
+
+    x.domain(d3.extent(  data, function(d) { return d.date  }));
+    y.domain([0, d3.max( data, function(d) { return d.close })]);
+
+    svg.append("path")
+        .datum(data)
+        .attr("class", "area")
+        .attr("d", area);
+})(
+    /* [ initial [x,y],.. array of arrays here ] */
+);
+
+add_data(data); // append more data;
+add_data(data); // append more data;
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Graphing Ticker Price Changes</h4>
+            <p>
+                With data streaming in real-time it is easy
+                to capture and display visual reference data
+                in graph form using <strong>d3.js</strong>
+                rendering the dual axis changes in the ticker
+                price over time.
+                X-axis is price and Y-axis is time.
+                This code gets you started with the graphing points.
+                Note that you need a HTML div element named
+                <code>&lt;div id="chart-graph"&gt;&lt;/div&gt;</code>
+                as the place holder for the graph.
+            </p>
+            <p>
+                You can find the 
+                <a href="http://d3js.org/">
+                    D3.js graphing library for
+                    data driven documents here.
+                </a>
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+
+
+<!-- CHAT -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Multi-user Group Chat</h4>
+<pre class="code">
+...
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Anonymous Topic Focus Communication</h4>
+            <p>
+                ...
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+<!-- LOADING HISTORY FOR PRE-POPULATION -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Load Historical Events</h4>
+<pre class="code">
+pubnub.history({
+    limit    : 5,
+    channel  : 'TICKER',
+    callback : history_receiver
+})
+
+function history_receiver(messages) {
+    console.log(messages);
+}
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Pre-populate UI at First Load</h4>
+            <p>
+                ...
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+
+
+
+<!-- ... -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>PubNub - Class Instance</h4>
+<pre class="code">
+...
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Introduciton Details</h4>
+            <p>
+                ...
+            </p>
+        </div>
+    </div>
+</div></div>
 
 
 
