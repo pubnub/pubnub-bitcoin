@@ -397,6 +397,45 @@ h2 {
 }
 
 
+/* FOOTER
+-------------------------------------------------------------------- */
+
+.footer {
+    background: #fff;
+    margin: 0;
+    padding: 60px 0;
+}
+.row-margin-small {
+    margin: 20px 0;
+}
+.footer p {
+    font-size: 20px;
+}
+
+
+.pubnub-logo {
+    background-image: url(../media/pubnub.png);
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 200px;
+}
+.pubnub-logo-header {
+    background-image: url(../media/pubnub.png);
+    background-repeat: no-repeat;
+    width: 98px;
+    height: 22px;
+    background-size: 98px 22px;
+    display: inline-block;
+}
+.pubnub-logo-footer {
+    background-image: url(../media/pubnub.png);
+    background-repeat: no-repeat;
+    width: 98px;
+    height: 22px;
+    background-size: 98px 22px;
+    display: inline-block;
+    line-height: 210px;
+}
 
 /* CALLOUTS
 -------------------------------------------------------------------- */
