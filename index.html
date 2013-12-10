@@ -710,6 +710,44 @@ function history_receiver(messages) {
 </div></div>
 
 
+<!-- PUBLISHING DATA FROM THE SERVER -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h3>Publishing Stream Feeds in PHP</h3>
+<pre class="code">
+&lt;?php
+// Require PubNub Library
+require_once('Pubnub.php');
+
+// Init PubNub Instance Class
+$pubnub = new Pubnub(
+    $publish_key,
+    $subscribe_key
+);
+
+// Publish Ticker Feed Data
+$pubnub-&gt;publish(array(
+    'channel' =&gt; 'ticker',
+    'message' =&gt; array(
+        'date'           =&gt; 1386661231,
+        'amount'         =&gt; 0.1,
+        'price'          =&gt; 940.00001,
+        'price_currency' =&gt; 'USD'
+    )
+));
+?&gt;
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Prividing Data for your Subscribers</h4>
+            <p>
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
 <!-- FOOTER -->
 <div class="footer"><div class="container"><div class="row">
     <div class="col-lg-7">
