@@ -1,17 +1,7 @@
 (function(){
-
-PUBNUB.events.bind( 'fluff', function(data) {
-    
-} );
-
-var svg = d3.select("#chart-graph");
-
-var x = d3.time.scale()
-    .range([0, 1140]);
-
-var y = d3.scale.linear()
-    .range([280, 0]);
-
+var svg  = d3.select("#chart-graph");
+var x    = d3.time.scale().range([0, 1140]);
+var y    = d3.scale.linear().range([280, 0]);
 var area = d3.svg.area()
     .x(function(d)  { return x(d.date); })
     .y0(100)
@@ -23,8 +13,8 @@ var area = d3.svg.area()
     d.close = +d[1];
   });
 
-  x.domain(d3.extent(data, function(d) { return d.date; }));
-  y.domain([0, d3.max(data, function(d) { return d.close; })]);
+  x.domain(d3.extent(  data, function(d) { return d.date  }));
+  y.domain([0, d3.max( data, function(d) { return d.close })]);
 
   svg.append("path")
       .datum(data)

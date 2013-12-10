@@ -12,428 +12,808 @@
 
 <body>
 
-    <!-- NAVIGATION -->
-    <div id="wrap"><div class="navbar-default">
-    <div class="container">
-        <div class="navbar-header">
-            <a
-                class="navbar-brand"
-                target="pubnubwebsite"
-                href="http://www.pubnub.com/"
-            >PubNub Exchange Bitcoin Solution Kit</a>
+
+<!-- PUBNUB DOCUMENTATION SECTION -->
+
+
+<!-- GET API KEYS -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>Get PubNub API Keys</h4>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">
+                    DataSync starts with an always-on Socket Connection
+                </h3></div>
+                <div class="panel-body">
+                    <p>
+                        You'll need some API Keys to play with.
+                        Start by following these easy steps:
+                    </p>
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Step</th>
+                                <th>Action to Take</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>
+                                Signup For PubNub - 
+                                <a href="https://admin.pubnub.com/">
+                                    Signup/Login to 
+                                    PubNub Admin Portal
+                                </a>
+                                <p><small>
+                                    Optionally Watch PubNub Basic Video 1 -
+                                    <a href="https://vimeo.com/78274848">
+                                        Registering for PubNub API Keys
+                                    </a>
+                                    <br>
+                                    The video also describes what
+                                    each key purpose.
+                                </small></p>
+                            </td></tr>
+                            <tr><td>2</td><td>
+                                Paste in your API Keys
+                                and run <code>PUBNUB.init(...)</code>
+                                <em>continue reading below.</em>
+                            </td></tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
         </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#trades">
-                Trades
-            </a></li>
+    </div>
+</div></div>
 
-            <li><a href="#chat">
-                Live Chat
-            </a></li>
 
-            <li><a href="#features">
-                Features
-            </a></li>
+<!-- INIT CODE DOCS -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>PubNub Class Instance Create</h4>
+<pre class="code">
+var pubnub = PUBNUB.init({
+    subscribe_key : 'YOUR_SUBSCRIBE_KEY_HERE'
+});
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Introduction Details</h4>
+            <p>
+                This is the first step to initialize
+                the Connection Class
+                which will be used in the
+                following steps below.
+            </p><p>
+                The following examples below will
+                show a few more options
+                that will allow you to open TCP sockets and stream
+                only the data that you are interested in.
+                This is called <strong>Stream Multiplexing</strong>
+                which streams multiple feeds over a single TCP Socket.
+            </p>
+        </div>
+    </div>
+</div></div>
 
-            <li><a href="#get-started">
-                Get Started
-            </a></li>
+
+
+
+
+
+<!-- OPENING EXCHANGE STREAM (MT.GOX AS EXAMPLE) -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Opening Exchange Stream</h4>
+<pre class="code">
+pubnub.subscribe({
+    backfill : true,
+    channel  : [
+        'TICKER',
+        'TRADE'
+    ],
+    message  : function( message, env, channel ) {
+        // FIRE EVENT WHEN DATA ARRIVES
+        PUBNUB.events.fire( channel, message );
+    }
+});
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Receiving Live Exchange Events</h4>
+            <p>
+                Begin the data stream with establishing
+                a <strong>Multiplexed TCP Subscription</strong>
+                to both the <em>trade</em> and <em>ticker</em>
+                channel names.
+
+                Using the PubNub event model, we will
+                fire events based on the channel name.
+                Then we can bind on these events in our
+                view model to update the User Interface.
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+
+
+
+<!-- BINDING TO DATA EVENT (MT.GOX AS EXAMPLE) -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Binding to Data Event with Callback</h4>
+<pre class="code">
+//  -- TICKER DISPLAY -- 
+PUBNUB.events.bind( 'TRADE', function(data) {
+    console.log(data); // Update User Interface Here
+} );
+
+// -- TRADES (BUY/SELL) -- 
+PUBNUB.events.bind( 'TICKER', function(data) {
+    console.log(data); // Update User Interface Here
+} );
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Hooking up to User Interfaces</h4>
+            <p>
+                Bind to the events which are fired from our
+                data model layer in order to update the
+                user interface.
+                By receiving this data we can issue
+                UI updates which change the display
+                of the ticker numbers
+                and also showing a log of all trades that occur.
+                You may also want to animate the UI to 
+                better demonstrate the changes occurring.
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+<!-- DRAWING GRAPH WITH D3.JS -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Live Graph Data with D3.js</h4>
+<pre class="code">
+var svg  = d3.select("#chart-graph");
+var x    = d3.time.scale().range([0, 1140]);
+var y    = d3.scale.linear().range([280, 0]);
+var area = d3.svg.area()
+    .x(function(d)  { return x(d.date); })
+    .y0(100)
+    .y1(function(d) { return y(d.close); });
+
+(function add_data(data) {
+    data.forEach(function(d) {
+        d.date  = d3.time.format("%d-%b-%y").parse(d[0]);
+        d.close = +d[1];
+    });
+
+    x.domain(d3.extent(  data, function(d) { return d.date  }));
+    y.domain([0, d3.max( data, function(d) { return d.close })]);
+
+    svg.append("path")
+        .datum(data)
+        .attr("class", "area")
+        .attr("d", area);
+})(
+    /* [ initial [x,y],.. array of arrays here ] */
+);
+
+add_data(data); // append more data;
+add_data(data); // append more data;
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Graphing Ticker Price Changes</h4>
+            <p>
+                With data streaming in real-time it is easy
+                to capture and display visual reference data
+                in graph form using <strong>d3.js</strong>
+                rendering the dual axis changes in the ticker
+                price over time.
+                X-axis is price and Y-axis is time.
+                This code gets you started with the graphing points.
+                Note that you need a HTML div element named
+                <code>&lt;div id="chart-graph"&gt;&lt;/div&gt;</code>
+                as the place holder for the graph.
+            </p>
+            <p>
+                You can find the 
+                <a href="http://d3js.org/">
+                    D3.js graphing library for
+                    data driven documents here.
+                </a>
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+
+
+<!-- CHAT -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Multi-user Group Chat</h4>
+<pre class="code">
+...
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Anonymous Topic Focus Communication</h4>
+            <p>
+                ...
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+<!-- LOADING HISTORY FOR PRE-POPULATION -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Load Historical Events</h4>
+<pre class="code">
+pubnub.history({
+    limit    : 5,
+    channel  : 'TICKER',
+    callback : history_receiver
+})
+
+function history_receiver(messages) {
+    console.log(messages);
+}
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Pre-populate UI at First Load</h4>
+            <p>
+                ...
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+
+
+
+<!-- ... -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>PubNub - Class Instance</h4>
+<pre class="code">
+...
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Introduciton Details</h4>
+            <p>
+                ...
+            </p>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+
+
+<!-- NAVIGATION -->
+<div id="wrap"><div class="navbar-default">
+<div class="container">
+    <div class="navbar-header">
+        <a
+            class="navbar-brand"
+            target="pubnubwebsite"
+            href="http://www.pubnub.com/"
+        >PubNub Exchange Bitcoin Solution Kit</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#trades">
+            View Code
+        </a></li>
+
+        <li><a href="#trades">
+            Trades
+        </a></li>
+
+        <li><a href="#chat">
+            Live Chat
+        </a></li>
+
+        <li><a href="#features">
+            Features
+        </a></li>
+
+        <li><a href="#get-started">
+            Get Started
+        </a></li>
+    </ul>
+</div>
+</div></div>
+
+<!-- JUMBOTRON MAIN INTRODUCTION SECTION -->
+<div class="jumbotron"><div class="jumbotron-glow">
+    <h1>Bitcoin Exchange Solution Kit</h1>
+    <div class="container">
+        <p class="lead">
+            To quickly and easily deliver powerful
+            Bitcoin exchanges features using the
+            <strong>PubNub Real-Time</strong>
+            <strong>Network</strong>
+            to provide real-time infrastructure and
+            simplify the process with this
+            <strong>Bitcoin Exchange Solution Kit</strong>
+            which includes core components.
+        </p>
+        <p><a
+            class="btn btn-lg btn-info"
+            href="#get-started"
+            role="button"
+        >Get Started</a></p>
+    </div>
+</div></div>
+
+
+<!-- JUMBOTRON FOOTER AND SECTION HEADER FOR DASHBOARD -->
+<div class="jumbotron-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-1 graph-icon">
+                <span class="glyphicon glyphicon-stats"></span>
+            </div>
+            <div class="col-lg-8 graph-title">
+                Real-time - Data sourced from <a href="https://www.mtgox.com/">Mt.Gox</a>
+            </div>
+            <div class="col-lg-3 graph-date">
+                <span class="glyphicon glyphicon-calendar"></span>
+                &nbsp;<span id="current-date">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- DASHBOARD STARTING AREA HERE -->
+<div class="container">
+
+    <!-- VAULES -->
+    <div class="row">
+        <div class="col-lg-4">
+            <div id="btc-current" class="btc-big">0,000.00</div>
+            <div class="btc-big-label-focus">
+                <span
+                    id="btc-current-arrow"
+                    class="glyphicon glyphicon-exclamation-sign"
+                ></span>
+                current
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div id="btc-high" class="btc-big">0,000.00</div>
+            <div class="btc-big-label">
+                <span
+                    id="btc-current-arrow"
+                    class="glyphicon glyphicon-upload"
+                ></span>
+                high
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div id="btc-low" class="btc-big">0,000.00</div>
+            <div class="btc-big-label">
+                <span
+                    id="btc-current-arrow"
+                    class="glyphicon glyphicon-download"
+                ></span>
+                low
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- GRAPH CHART -->
+<div id="chart-graph-area">
+<div class="container">
+    <svg id="chart-graph"></svg>
+    <div id="chart-graph-footer">
+        <div class="row">
+            <div class="col-xs-1">
+                <span class="glyphicon glyphicon-bookmark">
+                </span>
+            </div>
+            <div class="col-xs-2">Sun</div>
+            <div class="col-xs-1">Mon</div>
+            <div class="col-xs-2">Tue</div>
+            <div class="col-xs-1">Wed</div>
+            <div class="col-xs-2">Thu</div>
+            <div class="col-xs-1">Fri</div>
+            <div class="col-xs-2">Sat</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="container">
+</div>
+
+<div id="trades"></div>
+<div id="chat"></div>
+<div class="alert-warning trade-main-bg"><div class="container">
+    <div class="row">
+        <div class="col-lg-7">
+            <h2 class="trade-heading">Trades</h2>
+        </div>
+        <div class="col-lg-5">
+            <h2 class="trade-heading">Chat</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <div id="trade-area"><div></div></div>
+        </div>
+        <div class="col-lg-5"><div class="trade-chat-bg">
+
+        <!-- USER CHAT FORM AREA -->
+        <div class="well">
+            <!-- USER NAME HERE -->
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group input-group-sm">
+                            <span 
+                            class="input-group-addon">User</span>
+                            <input
+                                id="chat-username"
+                                type="text"
+                                class="form-control"
+                                value="Anonymous"
+                            >
+                        </div>
+                    </div>
+                    <div id="chat-color-select" class="col-lg-6">
+                        &nbsp;
+                        <span
+                            value="0"
+                            class="glyphicon glyphicon-tag cd">
+                        </span>
+                        &nbsp;
+                        <span
+                            value="1"
+                            class="glyphicon glyphicon-tag cw">
+                        </span>
+                        &nbsp;
+                        <span
+                            value="2"
+                            class="glyphicon glyphicon-tag ci">
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEXT CHAT BOX -->
+            <div class="input-group">
+                <input
+                    id="chat-message-box"
+                    type="text"
+                    class="form-control"
+                    placeholder="Chat Message"
+                >
+                <span class="input-group-btn">
+                    <button
+                        id="chat-send-button"
+                        class="btn btn-default"
+                        type="button"
+                    >Send</button>
+                </span>
+            </div>
+        </div>
+
+        <!-- CHAT AREA TEXT MESSAGES POPULATE HERE -->
+        <div id="chat-area"><div></div></div>
+
+        </div></div>
+    </div>
+</div></div>
+
+<script id="chat-template" type="text/template">
+    <div class="bs-callout bs-callout-{color}">
+        <h4>{username}</h4>
+        <p>{message}</p>
+    </div>
+</script>
+
+<script id="trade-template" type="text/template">
+    <div class="row trade-line-bg">
+        <div class="col-lg-3">
+            <div class="trade-time-ago">
+                <span id="trade-time-ago-{tid}">{time}</span>
+                Seconds Ago
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="trade-value-block">
+                <div class="relative">
+                    <div class="trade-arrows">
+                        <span class="glyphicon glyphicon-certificate"
+                        ></span>
+                    </div>
+                    <div class="trade-coin"></div>
+                    <div class="trade-price">
+                        <div>Trade Price</div>
+                        <div class="trade-price-usd">
+                            {price} {price_currency}
+                        </div>
+                    </div>
+                    <div class="trade-btc">
+                        {amount} {item}
+                    </div>
+                    <div class="trade-usd">
+                        {total} {price_currency}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- MARKETING SECTION BEGINS WITH FEATURES AND DETAILS -->
+<div id="features"></div>
+<div class="featurebg"><div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <h2>
+                <!--
+                <span
+                class="glyphicon glyphicon-cloud-download"></span>
+                &nbsp;-->
+                Live Real-time Public Pricing Data Stream
+            </h2>
+            <p>
+                All trading platforms require up to the millisecond
+                pricing information in order to execute trades
+                effectively. Building the infrastructure to stream
+                this data to thousands of devices simultaneously
+                can be costly and difficult to manage.
+                PubNub provides a core messaging platform allowing
+                developers to publish data streams to millions of
+                devices in less than ¼ of a second without the
+                need for any costly servers or configuration.
+            </p>
+        </div>
+        <div class="col-lg-4">
+            <h2>
+                Full Transaction and Pricing History API
+            </h2>
+            <p>
+                Accurate tracking of transaction data and history is
+                critical to providing a seamless trading experience.
+                PubNub can automatically record all data that has
+                been published over the network for quick retrieval
+                and playback.
+                In the event a transaction is
+                interrupted for some reason (network connection
+                issues, for example) you could quickly recall
+                historical transaction data and complete
+                the transaction.
+            </p>
+        </div>
+        <div class="col-lg-4">
+            <h2>
+                Secure Streaming Channels to Users
+            </h2>
+            <p>
+                Security is paramount in a trading platform.
+                Transaction and account information must be kept
+                private from end to end.
+                PubNub offers various encryption and access control
+                options to manage all stream data.
+                Access can be controlled for all operations
+                within the PubNub network.
+            </p>
+        </div>
+    </div>
+</div></div>
+
+<div class="container"><div class="row featurette">
+    <div class="col-md-7">
+        <h2 class="featurette-heading">
+            User Detection & Collaboration
+            <span class="text-muted">
+                Capture Your User's Activity.
+            </span>
+        </h2>
+        <p class="lead">
+            Providing an interactive trading platform is helpful for
+            <strong>building a strong Bitcoin</strong> community,
+            sharing information about the new currency and providing
+            assistance throughout the trading process.
+            PubNub provides features that can detect the presence
+            of customers on the platform and the ability to easily
+            create collaborative features such as chat forums.
+        </p>
+    </div>
+    <div class="col-md-5">
+        <p class="lead-icon-heading-right">
+            <span class="glyphicon glyphicon-user"></span>
+        </p>
+    </div>
+</div></div>
+
+<div class="container"><div class="row featurette">
+    <div class="col-md-5">
+        <p class="lead-icon-heading">
+            <span class="glyphicon glyphicon-link"></span>
+        </p>
+    </div>
+    <div class="col-md-7">
+        <h2 class="featurette-heading">
+            Reliable, Persistent Network Connections.
+            <span class="text-muted">
+                An Always-Open Line to All Your Users.
+            </span>
+        </h2>
+        <p class="lead">
+            <strong>Up to 15ms Sync Delivery Speeds.</strong>
+            PubNub announces JavaScript DataSync SDK.
+            Many customers are using
+            <strong>DataSync</strong> today
+            on the PubNub Real-time Network.
+            We made it even easy
+            by offering an SDK enabling
+            true DataSync powered by the worlds largest
+            Global Real-time Network.
+        </p>
+    </div>
+</div></div>
+
+<div class="container"><div class="row featurette">
+    <div class="col-md-7">
+        <h2 class="featurette-heading">
+            User Analytics.
+            <span class="text-muted">
+                Track Visitors and Volumes.
+            </span>
+        </h2>
+        <p class="lead">
+            Understanding user behaviour is critical to any
+            emerging platform. PubNub provides key analytic
+            data to track unique visitor, traffic volume by
+            data type and geographical information over time.
+            All of this data is presented in a dashboard in
+            our customer portal.
+        </p>
+    </div>
+    <div class="col-md-5">
+        <p class="lead-icon-heading-right">
+            <span class="glyphicon glyphicon-stats"></span>
+        </p>
+    </div>
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container"><div class="row">
+    <div class="col-lg-6">
+        <h3>TODO List</h3>
+        <ul class="list-group">
+            <li class="list-group-item">make footer</li>
+            <li class="list-group-item">more refs to pubnub links</li>
+            <li class="list-group-item">link to mtgox wiki</li>
+            <li class="list-group-item">link to mtgox</li>
+            <li class="list-group-item">updates new marketing doc</li>
+            <li class="list-group-item">hook up graph</li>
+            <li class="list-group-item">needs code documentation</li>
+            <li class="list-group-item">social buttons</li>
+            <li class="list-group-item">where does Get Started go?</li>
+            <li class="list-group-item">-webkit- always-on</li>
+            <li class="list-group-item"></li>
         </ul>
     </div>
-    </div></div>
-
-    <!-- JUMBOTRON MAIN INTRODUCTION SECTION -->
-    <div class="jumbotron"><div class="jumbotron-glow">
-        <h1>Bitcoin Exchange Solution Kit</h1>
-        <div class="container">
-            <p class="lead">
-                To quickly and easily deliver powerful
-                Bitcoin exchanges features using the
-                <strong>PubNub Real-Time</strong>
-                <strong>Network</strong>
-                to provide real-time infrastructure and
-                simplify the process with this
-                <strong>Bitcoin Exchange Solution Kit</strong>
-                which includes core components.
-            </p>
-            <p><a
-                class="btn btn-lg btn-info"
-                href="#get-started"
-                role="button"
-            >Get Started</a></p>
-        </div>
-    </div></div>
+</div></div>
 
 
-    <!-- JUMBOTRON FOOTER AND SECTION HEADER FOR DASHBOARD -->
-    <div class="jumbotron-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-1 graph-icon">
-                    <span class="glyphicon glyphicon-stats"></span>
-                </div>
-                <div class="col-lg-8 graph-title">
-                    Real-time - Data sourced from <a href="https://www.mtgox.com/">Mt.Gox</a>
-                </div>
-                <div class="col-lg-3 graph-date">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                    &nbsp;<span id="current-date">&nbsp;</span>
-                </div>
-            </div>
-        </div>
+
+
+<!-- Site footer -->
+<div class="container">
+    <div class="footer">
+        <p>&copy; PubNub 2013</p>
+    </div>
+</div>
+
+
+
+<!-- ====== -->
+<!-- FOOTER -->
+<!-- ====== -->
+<footer><div class="container"><div class="row">
+    <div class="span7">
+        <h3 class="footer-title">
+            More with PubNub Real-time Network
+        </h3>
+        <p>
+            Do you like this freebie?
+            Want to get more stuff like this?<br/>
+            Subscribe to
+            <a target=pntwitter href="http://twitter.com/PubNub">@PubNub</a>
+            news and updates to stay tuned on great designs.<br/>
+            <a
+            target=signup
+            href="http://www.pubnub.com/free-trial">PubNub Real-Time Network</a>.
+        </p>
+        <p class="pvl">
+            <a target=pntwitter2 href="http://twitter.com/PubNub">Tweet</a>
+        </p>
     </div>
 
+    <div class="span5">
+        <div class="footer-banner">
+            <h3 class="footer-title">
+                <span class="fui-chat emblem-footer"></span>
+                PubNub Network
+            </h3>
 
-    <!-- DASHBOARD STARTING AREA HERE -->
-    <div class="container">
+            <div class=row-margin-small>
+            <a class="btn btn-info btn-large btn-block"
+            alt="PubNub Real-Time Network"
+            target=freetrial
+            href="http://www.pubnub.com/free-trial">
+            Try PubNub Today!</a></div>
 
-        <!-- VAULES -->
-        <div class="row">
-            <div class="col-lg-4">
-                <div id="btc-current" class="btc-big">0,000.00</div>
-                <div class="btc-big-label-focus">
-                    <span
-                        id="btc-current-arrow"
-                        class="glyphicon glyphicon-exclamation-sign"
-                    ></span>
-                    current
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div id="btc-high" class="btc-big">0,000.00</div>
-                <div class="btc-big-label">
-                    <span
-                        id="btc-current-arrow"
-                        class="glyphicon glyphicon-upload"
-                    ></span>
-                    high
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div id="btc-low" class="btc-big">0,000.00</div>
-                <div class="btc-big-label">
-                    <span
-                        id="btc-current-arrow"
-                        class="glyphicon glyphicon-download"
-                    ></span>
-                    low
-                </div>
-            </div>
-        </div>
-    </div>
-
-        <!-- GRAPH CHART -->
-    <div id="chart-graph-area">
-    <div class="container">
-        <svg id="chart-graph"></svg>
-        <div id="chart-graph-footer">
-            <div class="row">
-                <div class="col-xs-1">
-                    <span class="glyphicon glyphicon-bookmark">
-                    </span>
-                </div>
-                <div class="col-xs-2">Sun</div>
-                <div class="col-xs-1">Mon</div>
-                <div class="col-xs-2">Tue</div>
-                <div class="col-xs-1">Wed</div>
-                <div class="col-xs-2">Thu</div>
-                <div class="col-xs-1">Fri</div>
-                <div class="col-xs-2">Sat</div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <div class="container">
-    </div>
-
-    <div id="trades"></div>
-    <div id="chat"></div>
-    <div class="alert-warning trade-main-bg"><div class="container">
-        <div class="row">
-            <div class="col-lg-7">
-                <h2 class="trade-heading">Trades</h2>
-            </div>
-            <div class="col-lg-5">
-                <h2 class="trade-heading">Chat</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-7">
-                <div id="trade-area"><div></div></div>
-            </div>
-            <div class="col-lg-5"><div class="trade-chat-bg">
-
-            <!-- USER CHAT FORM AREA -->
-            <div class="well">
-                <!-- USER NAME HERE -->
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="input-group input-group-sm">
-                                <span 
-                                class="input-group-addon">User</span>
-                                <input
-                                    id="chat-username"
-                                    type="text"
-                                    class="form-control"
-                                    value="Anonymous"
-                                >
-                            </div>
-                        </div>
-                        <div id="chat-color-select" class="col-lg-6">
-                            &nbsp;
-                            <span
-                                value="0"
-                                class="glyphicon glyphicon-tag cd">
-                            </span>
-                            &nbsp;
-                            <span
-                                value="1"
-                                class="glyphicon glyphicon-tag cw">
-                            </span>
-                            &nbsp;
-                            <span
-                                value="2"
-                                class="glyphicon glyphicon-tag ci">
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TEXT CHAT BOX -->
-                <div class="input-group">
-                    <input
-                        id="chat-message-box"
-                        type="text"
-                        class="form-control"
-                        placeholder="Chat Message"
-                    >
-                    <span class="input-group-btn">
-                        <button
-                            id="chat-send-button"
-                            class="btn btn-default"
-                            type="button"
-                        >Send</button>
-                    </span>
-                </div>
-            </div>
-
-            <!-- CHAT AREA TEXT MESSAGES POPULATE HERE -->
-            <div id="chat-area"><div></div></div>
-
-            </div></div>
-        </div>
-    </div></div>
-
-    <script id="chat-template" type="text/template">
-        <div class="bs-callout bs-callout-{color}">
-            <h4>{username}</h4>
-            <p>{message}</p>
-        </div>
-    </script>
-
-    <script id="trade-template" type="text/template">
-        <div class="row trade-line-bg">
-            <div class="col-lg-3">
-                <div class="trade-time-ago">
-                    <span id="trade-time-ago-{tid}">{time}</span>
-                    Seconds Ago
-                </div>
-            </div>
-            <div class="col-lg-9">
-                <div class="trade-value-block">
-                    <div class="relative">
-                        <div class="trade-arrows">
-                            <span class="glyphicon glyphicon-certificate"
-                            ></span>
-                        </div>
-                        <div class="trade-coin"></div>
-                        <div class="trade-price">
-                            <div>Trade Price</div>
-                            <div class="trade-price-usd">
-                                {price} {price_currency}
-                            </div>
-                        </div>
-                        <div class="trade-btc">
-                            {amount} {item}
-                        </div>
-                        <div class="trade-usd">
-                            {total} {price_currency}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </script>
-
-    <!-- MARKETING SECTION BEGINS WITH FEATURES AND DETAILS -->
-    <div id="features"></div>
-    <div class="featurebg"><div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>
-                    <!--
-                    <span
-                    class="glyphicon glyphicon-cloud-download"></span>
-                    &nbsp;-->
-                    Live Real-time Public Pricing Data Stream
-                </h2>
-                <p>
-                    All trading platforms require up to the millisecond
-                    pricing information in order to execute trades
-                    effectively. Building the infrastructure to stream
-                    this data to thousands of devices simultaneously
-                    can be costly and difficult to manage.
-                    PubNub provides a core messaging platform allowing
-                    developers to publish data streams to millions of
-                    devices in less than ¼ of a second without the
-                    need for any costly servers or configuration.
-                </p>
-            </div>
-            <div class="col-lg-4">
-                <h2>
-                    Full Transaction and Pricing History API
-                </h2>
-                <p>
-                    Accurate tracking of transaction data and history is
-                    critical to providing a seamless trading experience.
-                    PubNub can automatically record all data that has
-                    been published over the network for quick retrieval
-                    and playback.
-                    In the event a transaction is
-                    interrupted for some reason (network connection
-                    issues, for example) you could quickly recall
-                    historical transaction data and complete
-                    the transaction.
-                </p>
-            </div>
-            <div class="col-lg-4">
-                <h2>
-                    Secure Streaming Channels to Users
-                </h2>
-                <p>
-                    Security is paramount in a trading platform.
-                    Transaction and account information must be kept
-                    private from end to end.
-                    PubNub offers various encryption and access control
-                    options to manage all stream data.
-                    Access can be controlled for all operations
-                    within the PubNub network.
-                </p>
-            </div>
-        </div>
-    </div></div>
-
-    <div class="container"><div class="row featurette">
-        <div class="col-md-7">
-            <h2 class="featurette-heading">
-                User Detection & Collaboration
-                <span class="text-muted">
-                    Capture Your User's Activity.
-                </span>
-            </h2>
-            <p class="lead">
-                Providing an interactive trading platform is helpful for
-                <strong>building a strong Bitcoin</strong> community,
-                sharing information about the new currency and providing
-                assistance throughout the trading process.
-                PubNub provides features that can detect the presence
-                of customers on the platform and the ability to easily
-                create collaborative features such as chat forums.
-            </p>
-        </div>
-        <div class="col-md-5">
-            <p class="lead-icon-heading-right">
-                <span class="glyphicon glyphicon-user"></span>
-            </p>
-        </div>
-    </div></div>
-
-    <div class="container"><div class="row featurette">
-        <div class="col-md-5">
-            <p class="lead-icon-heading">
-                <span class="glyphicon glyphicon-link"></span>
-            </p>
-        </div>
-        <div class="col-md-7">
-            <h2 class="featurette-heading">
-                Reliable, Persistent Network Connections.
-                <span class="text-muted">
-                    An Always-Open Line to All Your Users.
-                </span>
-            </h2>
-            <p class="lead">
-                <strong>Up to 15ms Sync Delivery Speeds.</strong>
-                PubNub announces JavaScript DataSync SDK.
-                Many customers are using
-                <strong>DataSync</strong> today
-                on the PubNub Real-time Network.
-                We made it even easy
-                by offering an SDK enabling
-                true DataSync powered by the worlds largest
-                Global Real-time Network.
-            </p>
-        </div>
-    </div></div>
-
-    <div class="container"><div class="row featurette">
-        <div class="col-md-7">
-            <h2 class="featurette-heading">
-                User Analytics.
-                <span class="text-muted">
-                    Track Visitors and Volumes.
-                </span>
-            </h2>
-            <p class="lead">
-                Understanding user behaviour is critical to any
-                emerging platform. PubNub provides key analytic
-                data to track unique visitor, traffic volume by
-                data type and geographical information over time.
-                All of this data is presented in a dashboard in
-                our customer portal.
-            </p>
-        </div>
-        <div class="col-md-5">
-            <p class="lead-icon-heading-right">
-                <span class="glyphicon glyphicon-stats"></span>
-            </p>
-        </div>
-    </div></div>
-
-
-
-
-
-
-    <div class="container"><div class="row">
-        <div class="col-lg-6">
-            <h3>TODO List</h3>
-            <ul class="list-group">
-                <li class="list-group-item">make footer</li>
-                <li class="list-group-item">more refs to pubnub links</li>
-                <li class="list-group-item">link to mtgox wiki</li>
-                <li class="list-group-item">link to mtgox</li>
-                <li class="list-group-item">updates new marketing doc</li>
-                <li class="list-group-item">hook up graph</li>
-                <li class="list-group-item">needs code documentation</li>
-                <li class="list-group-item">social buttons</li>
-                <li class="list-group-item">where does Get Started go?</li>
-                <li class="list-group-item">-webkit- always-on</li>
-                <li class="list-group-item"></li>
+            <ul>
+                <li>Core Building Blocks for Secure Real-Time</li>
+                <li>A Lot of Useful Samples</li>
+                <li>Real-Time on a Redundant, Global Network</li>
+                <li>Rapid Development and On-Demand Scaling</li>
+                <li>Drops into Mobile and Web by Default</li>
+                <li>Over 50 Supported SDKs</li>
             </ul>
-        </div>
-    </div></div>
 
-
-
-
-    <!-- Site footer -->
-    <div class="container">
-        <div class="footer">
-            <p>&copy; PubNub 2013</p>
         </div>
     </div>
+</div></div></footer>
+
 
 <script id="tsv" type="text/data">
 1-May-12        582.13

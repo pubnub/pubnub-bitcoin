@@ -376,6 +376,27 @@ h2 {
     letter-spacing: -1px;
 }
 
+/* PUBNUB CODE DOCUMENTATION
+-------------------------------------------------------------------- */
+.pubnub-code-docs {
+    margin: 0px;
+    padding: 70px 0;
+}
+.pubnub-code-docs h4 {
+    font-weight: 100;
+    font-size: 36px;
+    margin: 0 0 20px 0;
+}
+.pubnub-code-docs p {
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 200;
+}
+.pubnub-code-init {
+    background-color: #eeeee2;
+}
+
+
 
 /* CALLOUTS
 -------------------------------------------------------------------- */
