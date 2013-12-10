@@ -1,3 +1,14 @@
+body, div, span, input {
+    -webkit-backface-visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+}
+
+body {
+    transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0,0,0);
+}
+
+
 .footer {
     border-top: 1px solid #eee;
     margin-top: 40px;
