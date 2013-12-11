@@ -400,6 +400,9 @@ h2 {
 .pubnub-code-init {
     background-color: #eeeee2;
 }
+.pubnub-code-docs .featurette-heading {
+    margin-top: 10px;
+}
 
 
 /* FOOTER
