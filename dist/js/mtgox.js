@@ -33,4 +33,31 @@ pubnub.subscribe({
     }
 });
 
+
+// GET HISTORICAL DATA
+var now = new Date();
+now.setUTCHours(0);
+now.setUTCMinutes(0);
+now.setUTCSeconds(0);
+now.setUTCMilliseconds(0);
+var utc_now = now.getTime();
+
+PUBNUB.each( (new Array(12)).join(',').split(','), function( _, d ) {
+    var day = utc_now - 86400000 * d;
+    pubnub.history({
+        limit    : 1,
+        channel  : 'd5f06780-30a8-4a48-a2f8-7ed181b4a13f',
+        start    : day * 10000,
+        callback : function(messages) {
+            if (messages[0].length) PUBNUB.events.fire( 'ticker.HISTORY', {
+                day  : day,
+                data : messages[0][0]
+            } );
+        }
+    })
+} );
+
+
+
+
 })();
