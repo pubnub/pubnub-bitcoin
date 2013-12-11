@@ -41,21 +41,29 @@ now.setUTCMinutes(0);
 now.setUTCSeconds(0);
 now.setUTCMilliseconds(0);
 var utc_now = now.getTime();
+var vectors = [];
 
-PUBNUB.each( (new Array(12)).join(',').split(','), function( _, d ) {
-    var day = utc_now - 86400000 * d;
+PUBNUB.each( (new Array(24)).join(',').split(','), function( _, d ) {
+    var day = utc_now - 3600000 * d;
     pubnub.history({
         limit    : 1,
         channel  : 'd5f06780-30a8-4a48-a2f8-7ed181b4a13f',
         start    : day * 10000,
         callback : function(messages) {
-            if (messages[0].length) PUBNUB.events.fire( 'ticker.HISTORY', {
-                day  : day,
-                data : messages[0][0]
-            } );
+            if (!messages[0].length) return;
+            vectors.push([
+                new Date(day).getUTCHours(),
+                +messages[0][0].ticker.avg.value
+            ]);
+            redraw();
         }
     })
 } );
+
+function redraw() {
+    vectors.sort(function(a,b){ return a[0] - b[0] });
+    PUBNUB.events.fire( 'ticker.HISTORY', vectors );
+}
 
 
 
