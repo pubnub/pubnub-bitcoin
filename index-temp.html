@@ -415,7 +415,7 @@
             Step-by-Step Solution Kit Guide.
         </h2>
         <p class="lead">
-	These simple docs will walk you through how to use all the components of Bitcoin Exchange Solution Kit.  <BR><BR> The Solution Kit contains client-side (JavaScript) and server-side components (example PHP code, but PubNub supports all popular server-side languages).  This Solution Kit will demonstrate how to use the PubNub Real-Time Network to stream trades, price, social, and other data to end-users, as well as other related uses.  <BR><BR>  While the examples below are in JavaScript and PHP, PubNub supports iOS, Android, Python, .NET, Java, and over 50 other programming environments.  Head over to the <a href="http://www.pubnub.com/developers">PubNub Developer Page</a> to download the SDKs needed for your environment.
+	These simple docs will walk you through how to use all the components of Bitcoin Exchange Solution Kit.  The Solution Kit contains client-side (JavaScript) and server-side components (example PHP code, but PubNub supports all popular server-side languages).  
 	</p>
         <div class="col-lg-12">
 		<h4> 1. <a href="https://admin.pubnub.com/">Get Free PubNub API Keys</a> to Power the Solution Kit</h4>
@@ -452,9 +452,9 @@
                                 </small></p>
                             </td></tr>
                             <tr><td>2</td><td>
-                                <a href="http://www.pubnub.com/developers">Download the SDKs</a>
-                                 you will need for your programming environment.
-                                 (The examples below use PHP and JavaScript).
+                                Paste in your API Keys
+                                and run <code>PUBNUB.init(...)</code>
+                                <em>continue reading below.</em>
                             </td></tr>
                         </tbody>
                     </table>
@@ -466,46 +466,11 @@
 </div></div>
 
 
-<!-- PUBLISHING DATA FROM THE SERVER -->
-<div class="pubnub-code-docs pubnub-code-init"><div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <h3>2. Publishing Stream in PHP</h3>
-<pre class="code">
-&lt;?php
-// Require PubNub Library
-require_once('Pubnub.php');
-
-// Init PubNub Instance Class
-$pubnub = new Pubnub(
-    $publish_key,
-    $subscribe_key
-);
-
-// Publish Ticker Feed Data
-$pubnub-&gt;publish(array(
-    'channel' =&gt; 'ticker',
-    'message' =&gt; array(
-        'date'           =&gt; 1386661231,
-        'amount'         =&gt; 0.1,
-        'price'          =&gt; 940.00001,
-        'price_currency' =&gt; 'USD'
-    )
-));
-?&gt;
-</pre>
-        </div>
-        <div class="col-lg-6">
-            <h4>Providing Data for your Subscribers</h4>
-        <p class="lead"> Real-Time Feeds are easy!  Simply take the latest pricing or trade data as it occurs and publish it into a PubNub "channel" from your server.  In the example to the left, the channel "ticker" is used; however, you can use countless PubNub channels that each end-user can subscribe to.  The example here uses PHP, however this model works equally well with Java, Python, .NET, Perl, or any other server environment.</p>
-        </div>
-    </div>
-</div></div>
 <!-- INIT CODE DOCS -->
 <div class="pubnub-code-docs pubnub-code-init"><div class="container">
     <div class="row">
         <div class="col-lg-6">
-            <h3>3. Add PubNub to JavaScript</h3>
+            <h3>2. Add PubNub to JavaScript</h3>
 <pre class="code">
 var pubnub = PUBNUB.init({
     subscribe_key : 'YOUR_SUBSCRIBE_KEY_HERE'
@@ -515,12 +480,10 @@ var pubnub = PUBNUB.init({
         <div class="col-lg-6">
             <h4>Initalize PubNub on your Page</h4>
             <p>
-                The first step in receiving real-time data thru PubNub is to 
-                initialize PubNub on your webpage.  PubNub works on any web and mobile browser,
-                from IE6 thru the latest Chrome, Firefox, and Opera browsers. <BR> 
-                
-               
-              
+                This is the first step to initialize
+                the Connection Class
+                which will be used in the
+                following steps below.
             </p><p>
                 The following examples below will
                 show a few more options
@@ -538,47 +501,33 @@ var pubnub = PUBNUB.init({
 <div class="pubnub-code-docs pubnub-code-init"><div class="container">
     <div class="row">
         <div class="col-lg-6">
-            <h3>4. Subscribe to the Stream</h3>
+            <h3>Opening Exchange Stream</h3>
 <pre class="code">
 pubnub.subscribe({
     backfill : true,
     channel  : [
-        'ticker'
+        'TICKER',
+        'TRADE'
     ],
     message  : function( message, env, channel ) {
         // FIRE EVENT WHEN DATA ARRIVES
         PUBNUB.events.fire( channel, message );
     }
 });
-
-// Multiplexing channels is performed by simply creating
-// a comma-separated list of channels:
-...
-channel  : [
-        'ticker',
-        'trade'
-    ],
-...
-
 </pre>
         </div>
         <div class="col-lg-6">
-            <h4>Receiving Real-Time Data </h4>
+            <h4>Receiving Live Exchange Events</h4>
             <p>
-                The JavaScript to the left will get triggered
-                each time a new message is sent by your server
-                on the 'ticker" channel. 
+                Begin the data stream with establishing
+                a <strong>Multiplexed TCP Subscription</strong>
+                to both the <em>trade</em> and <em>ticker</em>
+                channel names.
+
                 Using the PubNub event model, we will
                 fire events based on the channel name.
                 Then we can bind on these events in our
                 view model to update the User Interface.
-
-                <BR>
-                <BR>
-                This is a simple example; but it's also easy
-                to subscribe to multiple channels simultaneously.
-                See the second example to the left. 
-
             </p>
         </div>
     </div>
@@ -589,7 +538,7 @@ channel  : [
 <div class="pubnub-code-docs pubnub-code-init"><div class="container">
     <div class="row">
         <div class="col-lg-6">
-            <h3>5. Binding to Data with Callback</h3>
+            <h3>Binding to Data with Callback</h3>
 <pre class="code">
 //  -- TICKER DISPLAY -- 
 PUBNUB.events.bind( 'TRADE', function(data) {
@@ -624,7 +573,7 @@ PUBNUB.events.bind( 'TICKER', function(data) {
 <div class="pubnub-code-docs pubnub-code-init"><div class="container">
     <div class="row">
         <div class="col-lg-6">
-            <h3>6. Live Graph Data with D3.js</h3>
+            <h3>Live Graph Data with D3.js</h3>
 <pre class="code">
 var svg  = d3.select("#chart-graph");
 var x    = d3.time.scale().range([0, 1140]);
@@ -685,7 +634,7 @@ add_data(data); // append more data;
 <div class="pubnub-code-docs pubnub-code-init"><div class="container">
     <div class="row">
         <div class="col-lg-6">
-            <h3>7. Multi-user Group Chat</h3>
+            <h3>Multi-user Group Chat</h3>
 <pre class="code">
 // INIT PUB/SUB KEY
 var pubnub_chat = PUBNUB.init({
@@ -735,7 +684,7 @@ function send_chat_message( user, message ) {
 <div class="pubnub-code-docs pubnub-code-init"><div class="container">
     <div class="row">
         <div class="col-lg-6">
-            <h3>8. Load Historical Events</h3>
+            <h3>Load Historical Events</h3>
 <pre class="code">
 pubnub.history({
     limit    : 10,
@@ -764,6 +713,42 @@ function history_receiver(messages) {
 </div></div>
 
 
+<!-- PUBLISHING DATA FROM THE SERVER -->
+<div class="pubnub-code-docs pubnub-code-init"><div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h3>Publishing Stream Feeds in PHP</h3>
+<pre class="code">
+&lt;?php
+// Require PubNub Library
+require_once('Pubnub.php');
+
+// Init PubNub Instance Class
+$pubnub = new Pubnub(
+    $publish_key,
+    $subscribe_key
+);
+
+// Publish Ticker Feed Data
+$pubnub-&gt;publish(array(
+    'channel' =&gt; 'ticker',
+    'message' =&gt; array(
+        'date'           =&gt; 1386661231,
+        'amount'         =&gt; 0.1,
+        'price'          =&gt; 940.00001,
+        'price_currency' =&gt; 'USD'
+    )
+));
+?&gt;
+</pre>
+        </div>
+        <div class="col-lg-6">
+            <h4>Prividing Data for your Subscribers</h4>
+            <p>
+            </p>
+        </div>
+    </div>
+</div></div>
 
 
 <!-- FOOTER -->
