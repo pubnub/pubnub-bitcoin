@@ -80,7 +80,7 @@ body {
 .btc-big {
     letter-spacing: -3px;
     line-height: 100px;
-    font-size: 90px;
+    font-size: 75px;
     font-weight: 100;
     color: #f90;
     text-align: right;
@@ -380,7 +380,7 @@ h2 {
 -------------------------------------------------------------------- */
 .pubnub-code-docs {
     margin: 0px;
-    padding: 70px 0;
+    padding: 30px 0;
 }
 .pubnub-code-docs h3 {
     font-weight: 200;

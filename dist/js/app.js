@@ -193,7 +193,7 @@ function receive_chat_message( user, message, date, color ) {
 
 // OPEN DATA STREAM FOR RECEIVING CHAT MESSAGES
 chat_net.subscribe({
-    backfill : true,
+    //backfill : true,
     channel  : chat_channel,
     message  : process_inbound_chat
 });
