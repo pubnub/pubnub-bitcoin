@@ -71,17 +71,24 @@ var trade_area     = PUBNUB.$('trade-area');
 var timeagos       = []
 ,   divs           = [];
 
+var MIN_TRADE      = 0.000001;
+
 PUBNUB.events.bind( 'trade.BTC', function(data) {
     var div = PUBNUB.create('div');
     divs.push(div);
 
+    // MINI FRACTION DISPLAY AS 0.00
+    if (+data.trade.amount < MIN_TRADE) data.trade.amount = MIN_TRADE;
+
     // CALCULATIONS
     data.trade.total = (+data.trade.price) * (+data.trade.amount);
-    if (!data.trade.total) console.log(data.trade);
     data.trade.total = numf(data.trade.total);
     data.trade.price = numf(data.trade.price);
     data.trade.tid   = PUBNUB.uuid();
     data.trade.time  = get_time_ago(data.trade.date);
+
+    // MINI FRACTION DISPLAY AS 0.00
+    if (!data.trade.total) data.trade.total = '0.00';
 
     // RENDER TEMPLATE
     div.innerHTML = PUBNUB.supplant( trade_template, data.trade );
